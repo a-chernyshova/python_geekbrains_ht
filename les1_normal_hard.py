@@ -21,8 +21,11 @@ print(a, b)
 # Задача-3: Напишите программу, вычисляющую корни квадратного уравнения вида ax2 + bx + c = 0.
 
 def quadratic(a, b, c):
-    x1 = (-b + math.sqrt(b**2 - 4*a*c))/2*a
-    x2 = (-b - math.sqrt(b**2 - 4*a*c))/2*a
+	if (b**2 - 4*a*c) >0:
+		x1 = (-b + math.sqrt(b**2 - 4*a*c))/2*a
+		x2 = (-b - math.sqrt(b**2 - 4*a*c))/2*a
+	else:
+		print('there is no x')
     return(x1, x2)
 
 # hard: Задание-1:

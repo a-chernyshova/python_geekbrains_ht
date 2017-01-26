@@ -6,10 +6,8 @@ def format_list(list):
     for i in list:
         if len(i) > max_len:
             max_len=len(i)
-    for i,x  in enumerate(list):
-        #x = '{:>max_len}'.format(i)
-        #print(x)
-        print('{}.{:>{max_len}}'.format(i+1, x, max_len=max_len+1))
+    for i,x  in enumerate(list, 1):
+        print('{}.{:>{max_len}}'.format(i, x, max_len=max_len))
 
 list = ['apple', 'orange', 'sdfsdfdsfsdfsdfsdfsd', 'berry', '', 'er']
 print('Task#1')
@@ -37,12 +35,10 @@ def change_list(list):
     x = 0
     for i in list:
         if i%2 == 0:
-            i = i/4
-            list[x] = i
+            list[x] = i/4
             x += 1
         else:
-            i = i*2
-            list[x] = i
+            list[x] = i*2
             x += 1
     return list
 
