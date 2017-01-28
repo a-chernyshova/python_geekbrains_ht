@@ -31,14 +31,12 @@ def my_round(number, ndigits):
     number = str(integer) + '.' + str_fr
     return number
 
-print('Task#1')
-print(my_round(2.1299987, 5))
-print(my_round(5.99987, 3))
+print('Task#1',my_round(2.1299987, 5))
+print('Task#1',my_round(5.99987, 3))
 
 # Task-2: # Дан шестизначный номер билета, определить является ли билет счасливым
 # Решение реализовать в виде функции
 # Билет считается счастливым, если сумма его первых и последних цифр равны
-# !!!P.S.: функция не должна НИЧЕГО print'ить
 
 def lucky_ticket(ticket_number):
     sum_1 = 0
@@ -52,6 +50,5 @@ def lucky_ticket(ticket_number):
         sum_2 += i
     return sum_1 == sum_2
 
-print('Task#2')
-print(lucky_ticket(125639))
-print(lucky_ticket(156561))
+print('Task#2', lucky_ticket(125639))
+print('Task#2', lucky_ticket(156561))

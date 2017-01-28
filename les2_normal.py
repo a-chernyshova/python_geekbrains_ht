@@ -46,8 +46,8 @@ def random_list(n):
     for i in range(n):
         list.append(random.randint(-100, 100))
     return list
-print('Task#3')
-print(random_list(int(input("введи число"))))
+
+print('Task#3',random_list(int(input("введи число"))))
 
 # Task-4: Given list of int numbers. Need to get new list consists from unique elemets from the first one.
 list1 = [1, 5, 10, 15, 5, 1, 5, 2]
