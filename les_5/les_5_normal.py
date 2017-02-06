@@ -63,19 +63,20 @@ do = {
     "show_folders":show_folders
 }
 
-try:
-    dir_name = sys.argv[2]
-except IndexError:
-    dir_name = None
+if __name__ == '__main__':
+    try:
+        dir_name = sys.argv[2]
+    except IndexError:
+        dir_name = None
 
-try:
-    key = sys.argv[1]
-except IndexError:
-    key = None
+    try:
+        key = sys.argv[1]
+    except IndexError:
+        key = None
 
-if key:
-    if do.get(key):
-        do[key]()
-    else:
-        print("Задан неверный ключ (module normal)")
-        print("Укажите ключ help для получения справки")
+    if key:
+        if do.get(key):
+            do[key]()
+        else:
+            print("Задан неверный ключ (module normal)")
+            print("Укажите ключ help для получения справки")

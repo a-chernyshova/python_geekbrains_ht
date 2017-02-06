@@ -20,8 +20,6 @@ def delete_dir():
             print('{} директория удалена'.format(dir_path))
     except FileExistsError:
         print('Nothing to remove')
-#create_dir()
-#delete_dir()
 
 # Task-2:
 # Create a script which show folders current directory
@@ -32,8 +30,6 @@ def show_folders():
     #    if '.' in i:
     #        list_res.remove(i)
     return list_res
-
-#print(show_folders())
 
 # Task-3:
 # Напишите скрипт создающий копию файла, из которого запущен данный скрипт
@@ -53,4 +49,8 @@ def copy_current_file():
     print('Copy of ' + current_file + ' created')
     pass
 
-#copy_current_file()
+if __name__ == '__main__':
+    copy_current_file()
+    create_dir()
+    delete_dir()
+    print(show_folders())
