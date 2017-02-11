@@ -32,56 +32,10 @@
 Подсказка: для работы с псевдослучайными числами удобно использовать модуль random: http://docs.python.org/3/library/random.html"""
 import random
 
-# class Card:
-#     def __init__(self):
-#         self.row = 3
-#         self.column = 9
-#
-#     def generate_card(self):
-#         genereted_card = []
-#         for i in self.row:
-#             genereted_card.append([])
-#             for x in self.column:
-#                 genereted_card[i].append(random.randint(1, 90))
-#         return genereted_card
-#
-#     def draw_card(card):
-#         print("--"*22)
-#         for i in range(3):
-#             print("|", random.randint(1,10), "|", random.randint(11,20), "|", random.randint(21,30), "|", random.randint(31,40),
-#                   "|", random.randint(41,50), "|", random.randint(51,60), "|", random.randint(61,70), "|", random.randint(71,80),
-#                   "|", random.randint(81,90), "|")
-#             print("--"*22)
-#
-#     def strike_number(self):
-#         pass
-#
-#     def check_availability(self):
-#         pass
-#
-# class User:
-#     def get_card(self):
-#         pass
-#
-#     def move(self):
-#         pass
-#
-# class Computer(User):
-#     def get_card(self):
-#         pass
-#
-#     def move(self):
-#         pass
-#
-# class Loto:
-#     # user
-#     # computer
-#     def move(self):
-#         pass
 def generate_places():
     place = []
     for i in range(3):
-        column = [1,2,3,4,5,6,7,8,9]
+        column = list(range(1, 10))
         for a in range(5):
             x = random.choice(column)
             place.append(x-1)
@@ -95,8 +49,7 @@ def generate_card():
     row1 = [' ']*9
     row2 = [' ']*9
     row3 = [' ']*9
-    numbs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,
-                 51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
+    numbs = list(range(1, 91))
     place = generate_places()
     gen_numbs=[]
     for i in range(15):
@@ -113,9 +66,8 @@ def generate_card():
 def get_card():
     fields = generate_card()
     print('__________________Card__________________')
-    #print('------------------------------------------')
-    print(' ', fields[0][0],'  ',fields[0][1],' ',fields[0][2],'  ',fields[0][3],' ',fields[0][4],' ',
-          fields[0][5],' ',fields[0][6],' ',fields[0][7],' ',fields[0][8])
+    print(' ', fields[0][0], '  ', fields[0][1], ' ', fields[0][2], '  ', fields[0][3], ' ', fields[0][4], ' ',
+          fields[0][5], ' ', fields[0][6], ' ', fields[0][7], ' ', fields[0][8])
     print('---------------------------------------')
     print(' ', fields[1][0],' ',fields[1][1],' ',fields[1][2],' ',fields[1][3],' ',fields[1][4],' ',
           fields[1][5],' ',fields[1][6],' ',fields[1][7],' ',fields[1][8])
@@ -125,13 +77,11 @@ def get_card():
     print('________________________________________')
     return fields
 
+numbs = []
+for i in range(90):
+    numbs.append(i)
+
 def get_number():
-    numbs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,
-                 51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90]
-    # for i in range(90):
-    #     num = random.choice(numbs)
-    #     numbs.remove(num)
-    #     print(num)
     num = random.choice(numbs)
     numbs.remove(num)
     print(num)
@@ -140,7 +90,7 @@ def get_number():
 def remove_num_from_card(num, card):
     for i in [0, 1, 2]:
         if num in card[i]:
-            card[i].remove(num)
+            card[i][card[i].index(num)] = ' '
 
 def check_number_in_card(num, card):
     for i in [0, 1, 2]:
@@ -166,6 +116,16 @@ for i in range(90):
     if ask == 'y' or ask == 'Y':
         if check_number_in_card(step, your_card):
             remove_num_from_card(step, your_card)
+            print('__________________Card__________________')
+            print(' ', your_card[0][0],'  ',your_card[0][1],' ',your_card[0][2],'  ',your_card[0][3],' ',your_card[0][4],' ',
+					your_card[0][5],' ',your_card[0][6],' ',your_card[0][7],' ',your_card[0][8])
+            print('---------------------------------------')
+            print(' ', your_card[1][0],' ',your_card[1][1],' ',your_card[1][2],' ',your_card[1][3],' ',your_card[1][4],' ',
+					your_card[1][5],' ',your_card[1][6],' ',your_card[1][7],' ',your_card[1][8])
+            print('---------------------------------------')
+            print(' ', your_card[2][0],' ',your_card[2][1],' ',your_card[2][2],' ',your_card[2][3],' ',your_card[2][4],' ',
+					your_card[2][5],' ',your_card[2][6],' ',your_card[2][7],' ',your_card[2][8])
+            print('________________________________________')
             amount_of_erasing_yours += 1
             if amount_of_erasing_yours == 15:
                 print('Congratulations, dude! You are win!Your remove all numbers from your card!')
