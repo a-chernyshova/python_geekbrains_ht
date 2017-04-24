@@ -12,33 +12,47 @@ root.minsize(100, 300)
 root.resizable(width=False, height=True)
 
 
-# Форматировать вывод
 def print_models_btn():
     # очистить окно вывода
     output.delete('1.0', END)
     texts = Dealership1.printer_models()
+    output.insert("1.0", "{:<3} {:<10}".format(" №", "Model name\n"))
+    n = 0
     for line in texts:
-        output.insert("0.0", str(line)+"\n")
+        n += 1
+        output.insert(END, " {:<3} {:<10}".format(n, str(line[0]))+"\n")
+    output.insert(END, "\n Total amount:{}\n".format(len(texts)))
 
 
 def print_makers_btn():
     output.delete('1.0', END)
     makers = Dealership1.printer_makers()
+    output.insert("1.0", "{:<3} {:<10}".format(" №", "Maker name\n"))
+    n = 0
     for line in makers:
-        output.insert("0.0", str(line)+"\n")
+        n += 1
+        output.insert(END, " {:<3} {:<10}".format(n, str(line[0]))+"\n")
+    output.insert(END, "\n Total amount:{}\n".format(len(makers)))
 
 
 def print_car_btn():
     output.delete('1.0', END)
     texts = Dealership1.printer_car_dealership()
-    for line in texts:
-        output.insert("0.0", str(line)+"\n")
+    output.insert("1.0", " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+    for i in texts:
+        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+    output.insert(END, "\n Total amount:{}\n".format(len(texts)))
 
 
 def print_not_available_car_btn():
+    output.delete('1.0', END)
     cars = Dealership1.printer_not_available_car()
-    for line in cars:
-        output.insert("0.0", str(line)+"\n")
+    output.insert("1.0", " {:<3}{:<18}{:<12}{:<10}\n".format("№", "Model", "Maker", "Engine"))
+    n = 0
+    for i in cars:
+        n += 1
+        output.insert(END, " {:<3}{:<18}{:<12}{:<10}".format(n, i[0], i[1], i[2], i[3])+"\n")
+    output.insert(END, "\n Total amount:{}\n".format(len(cars)))
 
 
 # закрывать окно после добавления
@@ -219,7 +233,7 @@ def update_lorry_limits_btn():
     Label(root6, text="Идентификатор").grid(row=1, column=1)
     weight_limit = Entry(root6, width=20)
     weight_limit.grid(row=2, column=2)
-    Label(root6, text="Цена").grid(row=2, column=1)
+    Label(root6, text="Грузоперевозка").grid(row=2, column=1)
 
     def ok_btn():
         t = Dealership1.update_lorry(id_lorry.get(), weight_limit.get())
@@ -230,6 +244,7 @@ def update_lorry_limits_btn():
     root6.mainloop()
 
 
+# проверить query
 def del_car_btn():
     # Окно для ввода id записи для удаления
     root5 = Tk()
@@ -282,8 +297,13 @@ def search_model_btn():
     Label(root5, text="Модель").grid(row=1, column=1)
 
     def ok_btn():
-        t = Dealership1.search_car_model(model.get())
-        output.insert("0.0", str(t) + "\n")
+        output.delete('1.0', END)
+        output.insert("1.0", "Результаты поиска\n")
+        texts = Dealership1.search_car_model(model.get())
+        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+        for i in texts:
+            output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+        output.insert(END, "\n Total amount:{}\n".format(len(texts)))
 
     Button(root5, text="Поиск", width=10, height=1, command=ok_btn).grid(row=9, column=1)
     Button(root5, text="Отмена", width=10, height=1, command=root5.destroy).grid(row=9, column=2)
@@ -302,8 +322,13 @@ def search_maker_btn():
     Label(root5, text="Производитель").grid(row=1, column=1)
 
     def ok_btn():
-        t = Dealership1.search_car_maker(maker.get())
-        output.insert("0.0", str(t) + "\n")
+        output.delete('1.0', END)
+        output.insert("1.0", "Результаты поиска\n")
+        texts = Dealership1.search_car_maker(maker.get())
+        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+        for i in texts:
+            output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+        output.insert(END, "\n Total amount:{}\n".format(len(texts)))
 
     Button(root5, text="Поиск", width=10, height=1, command=ok_btn).grid(row=9, column=1)
     Button(root5, text="Отмена", width=10, height=1, command=root5.destroy).grid(row=9, column=2)
@@ -414,10 +439,13 @@ src = Scrollbar(root, command=output.yview)
 output.configure(yscrollcommand=src.set)
 src.grid(row=1, column=6, sticky=NS)
 # не работает вызов
-root.bind("F1", about)
+root.bind("i", about)
 
 root.mainloop()
 Dealership1.break_connection()
 
+#TODO:
 # При закрытии на крестик - не закрывает модальные окна
 # bind hot keys
+# дизейблить родительское окно
+# закрывать окна при нажатии ОК и вывода результатов в output
