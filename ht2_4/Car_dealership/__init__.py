@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import Deal.Dealership as Deal
-import tkinter
 from tkinter import *
+import threading
 
 
 Dealership1 = Deal.Dealership('localhost', 'dealership', 'root', 'password')
@@ -55,8 +55,37 @@ def print_not_available_car_btn():
     output.insert(END, "\n Total amount:{}\n".format(len(cars)))
 
 
-# закрывать окно после добавления
-# дизэйблить родительское окно
+def export_notavailable_btn():
+    root1 = Tk()
+    root1.title("Export to file")
+    root1.minsize(200, 70)
+    root1.resizable(width=False, height=False)
+    filename = Entry(root1, width=20)
+    filename.grid(row=1, column=2)
+    Label(root1, text="File name (name.txt)").grid(row=1, column=1)
+    cars = Dealership1.printer_not_available_car()
+    models = Dealership1.printer_models()
+    makers = Dealership1.printer_makers()
+
+    def ok_btn():
+        file = filename.get()
+        thread1 = threading.Thread(target=Dealership1.export_to_file, args=('Thread1', file, cars))
+        thread2 = threading.Thread(target=Dealership1.export_to_file, args=('Thread2', file, models))
+        thread3 = threading.Thread(target=Dealership1.export_to_file, args=('Thread3', file, makers))
+        thread1.start()
+        thread2.start()
+        thread3.start()
+        thread1.join()
+        thread2.join()
+        thread3.join()
+        #Dealership1.export_to_file(filename.get(), cars)
+
+    Button(root1, text="Экспортировать", width=15, height=1, command=ok_btn).grid(row=8, column=1)
+    Button(root1, text="Отмена", width=15, height=1, command=root1.destroy).grid(row=8, column=2)
+    root1.mainloop()
+
+
+# закрывать окно после добавления, дизэйблить родительское окно
 def add_car_btn():
     # Окно для добавления авто
     root1 = Tk()
@@ -406,6 +435,7 @@ filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Add car - CTRL+C", command=add_car_btn)
 filemenu.add_command(label="Add lorry - CTRL+L", command=add_lorry_btn)
 filemenu.add_command(label="Add car to DL - CTRL+D", command=add_car_to_ds_btn)
+filemenu.add_command(label="Export to file", command=export_notavailable_btn)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.destroy)
 menubar.add_cascade(label="File", menu=filemenu)
@@ -449,3 +479,4 @@ Dealership1.break_connection()
 # bind hot keys
 # дизейблить родительское окно
 # закрывать окна при нажатии ОК и вывода результатов в output
+# запрашивать подтверждение при удалении

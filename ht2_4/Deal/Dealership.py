@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import mysql.connector
 from mysql.connector import Error
+import threading
 
 
 class Dealership:
@@ -42,6 +43,7 @@ class Dealership:
             c.execute(sql)
             print("INFO: Выведен список моделей автомобилей, доступных в автоцентре в output")
             rows = c.fetchall()
+            #rows.insert(0, ("№", "Model name"))
             return rows
         except Error as e:
             # вывод и в лог и в GUI
@@ -313,3 +315,18 @@ class Dealership:
         except Error as e:
             print(e)
             return e
+
+    def export_to_file(self, text, filename, rows):
+        file = open(filename, 'a')
+        for row in rows:
+            file.write(text + str(row)+'\n')
+        #file.write(" {:<3}{:<18}{:<12}{:<10}\n".format("№", "Model", "Maker", "Engine"))
+        #n = 0
+        #for row in rows:
+        #    n += 1
+        #    #file.write(str(row)+'\n')
+        #    file.write(" {:<3}{:<18}{:<12}{:<10}".format(n, row[0], row[1], row[2], row[3])+"\n")
+        file.close()
+
+# Метод должен записывать результат запроса на выборку авторов в файл и в тот же самый файл должен быть записан
+# результат запроса на выборку книг. Данная работа должна быть реализована с помощью потоков.
