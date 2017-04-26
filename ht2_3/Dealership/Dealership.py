@@ -77,6 +77,7 @@ class Dealership:
             c.execute(sql)
             print("Подробный список автомобилей, доступных в автоцентре")
             rows = c.fetchall()
+
             for row in rows:
                 print(row)
         except Error as e:
@@ -101,7 +102,6 @@ class Dealership:
             print(e)
 
     # Добавление записи в таблицу Cars
-    # TODO: add ai for id
     def add_car(self, id_car, car_model, maker, year_production, car_engine, cost):
         try:
             sql = "INSERT INTO Cars(id_car, car_model, maker, year_production, car_engine, cost)" \
