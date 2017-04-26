@@ -1,3 +1,0 @@
-Task5.
- Write down string into the file encoded latin-1.
- Print out file

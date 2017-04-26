@@ -1,2 +1,0 @@
-Task4
-Write down string into binary file.
