@@ -69,16 +69,17 @@ def export_notavailable_btn():
 
     def ok_btn():
         file = filename.get()
-        thread1 = threading.Thread(target=Dealership1.export_to_file, args=('Thread1', file, cars))
-        thread2 = threading.Thread(target=Dealership1.export_to_file, args=('Thread2', file, models))
-        thread3 = threading.Thread(target=Dealership1.export_to_file, args=('Thread3', file, makers))
+        f = open(file, 'a+')
+        thread1 = threading.Thread(target=Dealership1.export_to_file, args=('Thread1', f, cars))
+        thread2 = threading.Thread(target=Dealership1.export_to_file, args=('Thread2', f, models))
+        thread3 = threading.Thread(target=Dealership1.export_to_file, args=('Thread3', f, makers))
         thread1.start()
         thread2.start()
         thread3.start()
         thread1.join()
         thread2.join()
         thread3.join()
-        #Dealership1.export_to_file(filename.get(), cars)
+        f.close()
 
     Button(root1, text="Экспортировать", width=15, height=1, command=ok_btn).grid(row=8, column=1)
     Button(root1, text="Отмена", width=15, height=1, command=root1.destroy).grid(row=8, column=2)

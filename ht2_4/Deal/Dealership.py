@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import mysql.connector
 from mysql.connector import Error
+import time
 import threading
 
 
@@ -317,16 +318,10 @@ class Dealership:
             return e
 
     def export_to_file(self, text, filename, rows):
-        file = open(filename, 'a')
+        # lock = threading.BoundedSemaphore(2)
+        # lock.acquire()
         for row in rows:
-            file.write(text + str(row)+'\n')
-        #file.write(" {:<3}{:<18}{:<12}{:<10}\n".format("№", "Model", "Maker", "Engine"))
-        #n = 0
-        #for row in rows:
-        #    n += 1
-        #    #file.write(str(row)+'\n')
-        #    file.write(" {:<3}{:<18}{:<12}{:<10}".format(n, row[0], row[1], row[2], row[3])+"\n")
-        file.close()
+            filename.write(text + str(row)+'\n')
+            time.sleep(0.2)
+        # lock.release()
 
-# Метод должен записывать результат запроса на выборку авторов в файл и в тот же самый файл должен быть записан
-# результат запроса на выборку книг. Данная работа должна быть реализована с помощью потоков.
