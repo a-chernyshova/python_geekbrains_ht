@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
-import Deal.Dealership as Deal
 from tkinter import *
 from GUI.Admin import admin
 from GUI.Layout import markup
 from GUI.Regular import common_user_interface
 import datetime
 from GUI.validator import validator
-import hashlib
+from Deal.Dealership import Dealership1
 
 
-Dealership1 = Deal.Dealership('localhost', 'dealership', 'root', 'password')
 root = Tk()
 root.title("Authorization")
 root.minsize(200, 70)
 root.resizable(width=False, height=False)
-
 log = Entry(root, width=20)
 log.grid(row=1, column=2, padx=(1, 1))
 Label(root, text="Login", width=15).grid(row=1, column=1)

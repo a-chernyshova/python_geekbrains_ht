@@ -428,3 +428,5 @@ class Dealership:
         except Error as e:
             print(e)
             return e
+
+Dealership1 = Dealership('localhost', 'dealership', 'root', 'password')

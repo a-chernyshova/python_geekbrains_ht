@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-import Deal.Dealership as Deal
 from tkinter import *
 import threading
-import re
 from GUI.validator import validator
 from tkinter.ttk import Combobox as Combobox
+from Deal.Dealership import Dealership1
 
 
 def common_user_interface():
-    Dealership1 = Deal.Dealership('localhost', 'dealership', 'root', 'password')
     root = Tk()
     root.title("Car dealership")
     root.minsize(100, 300)

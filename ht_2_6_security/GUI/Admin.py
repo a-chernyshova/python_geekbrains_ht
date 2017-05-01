@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
-import Deal.Dealership as Deal
 import hashlib
 from GUI.validator import validator
 from tkinter.ttk import Combobox as Combobox
-
+from Deal.Dealership import Dealership1
 
 def admin():
-    Dealership1 = Deal.Dealership('localhost', 'dealership', 'root', 'password')
     roota = Tk()
     roota.title("Админка")
     roota.minsize(100, 200)
