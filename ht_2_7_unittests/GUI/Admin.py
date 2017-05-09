@@ -7,16 +7,19 @@ from Deal.Dealership import Dealership1
 
 def admin():
     roota = Tk()
-    roota.title("Админка")
+    roota.title("Administration")
     roota.minsize(100, 200)
+    roota.geometry('670x350+100+110')
     roota.resizable(width=False, height=True)
 
     def add_car_btn():
         # Окно для добавления авто
-        root1 = Tk()
+        root1 = Toplevel(roota)
         root1.title("Add new car")
-        root1.minsize(250, 200)
+        root1.geometry('250x200+200+200')
         root1.resizable(width=False, height=False)
+        # make root1 modal
+        root1.grab_set()
         # поля ввода для добавления записи в бд
         car_model = Entry(root1, width=20)
         car_model.grid(row=2, column=2)
@@ -39,7 +42,8 @@ def admin():
                 t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
                                         car_engine.get(), cost.get())
                 output.insert("0.0", str(t) + "\n")
-                root1.withdraw()
+                #root1.withdraw()
+                root1.destroy()
             else:
 
                 if not year_production.get().isdigit():
@@ -59,10 +63,11 @@ def admin():
         root1.mainloop()
 
     def add_lorry_btn():
-        root2 = Tk()
+        root2 = Toplevel(roota)
         root2.title("Add new Lorry")
-        root2.minsize(250, 200)
+        root2.geometry('250x200+200+200')
         root2.resizable(width=False, height=False)
+        root2.grab_set()
         car_model = Entry(root2, width=20)
         car_model.grid(row=2, column=2)
         Label(root2, text="Модель").grid(row=2, column=1)
@@ -88,7 +93,7 @@ def admin():
                 t = Dealership1.add_lorry(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
                                           car_engine.get(), cost.get(), weight_limit.get())
                 output.insert("0.0", str(t) + "\n")
-                root2.withdraw()
+                root2.destroy()
             else:
                 if not year_production.get().isdigit():
                     validator(year_production)
@@ -106,10 +111,11 @@ def admin():
 
     def add_car_to_ds_btn():
         # Окно для добавления авто дилерцентру
-        root3 = Tk()
+        root3 = Toplevel(roota)
         root3.title("Add new car to dealership")
-        root3.minsize(250, 100)
+        root3.geometry('250x100+200+200')
         root3.resizable(width=False, height=False)
+        root3.grab_set()
         # поля ввода для добавления записи в бд
         id_car = Entry(root3, width=20)
         id_car.grid(row=1, column=2)
@@ -122,7 +128,7 @@ def admin():
             if amount.get().isdigit() and id_car.get().isdigit():
                 t = Dealership1.add_car_to_dealership(id_car.get(), amount.get())
                 output.insert("0.0", str(t) + "\n")
-                root3.withdraw()
+                root3.destroy()
             else:
                 if not amount.get().isdigit():
                     validator(amount)
@@ -137,14 +143,13 @@ def admin():
 
     def update_amount_btn():
         # Окно для изменения кол-ва
-        root4 = Tk()
+        root4 = Toplevel(roota)
         root4.title("Change cars amount")
-        root4.minsize(250, 100)
         root4.resizable(width=False, height=False)
+        root4.geometry('250x100+200+200')
+        root4.grab_set()
         options = Dealership1.return_dict()
         # поля ввода для добавления записи в бд
-        # id_row = Entry(root4, width=20)
-        # id_row.grid(row=1, column=2)
         Label(root4, text="Идентификатор").grid(row=1, column=1)
         amount = Entry(root4, width=20)
         amount.grid(row=2, column=2)
@@ -155,7 +160,7 @@ def admin():
         def ok_btn():
             t = Dealership1.update_amount(ids.get(), amount.get())
             output.insert("0.0", str(t) + "\n")
-            root4.withdraw()
+            root4.destroy()
 
         Button(root4, text="Сохранить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
         Button(root4, text="Отмена", width=10, height=1, command=root4.destroy).grid(row=9, column=2)
@@ -163,13 +168,13 @@ def admin():
 
     def del_car_from_ds_btn():
         # Окно для ввода id записи для удаления
-        root5 = Tk()
+        root5 = Toplevel(roota)
         root5.title("Delete car from dealership")
-        root5.minsize(300, 100)
+        root5.geometry('300x100+200+200')
         root5.resizable(width=False, height=False)
+        root5.grab_set()
         options = Dealership1.return_dict()
         # поля ввода для удаления записи из бд
-        # доработать - выбор из выпадающего списка
         Label(root5, text="Идентификатор").grid(row=1, column=1)
         ids = Combobox(root5, value=list(options.values()), width=18)
         ids.grid(row=1, column=2)
@@ -177,16 +182,17 @@ def admin():
         def ok_btn():
             t = Dealership1.delete_car_from_dealership(ids.get())
             output.insert("0.0", str(t) + "\n")
-            root5.withdraw()
+            root5.destroy()
         Button(root5, text="Удалить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
         Button(root5, text="Отмена", width=10, height=1, command=root5.destroy).grid(row=9, column=2)
         root5.mainloop()
 
     def update_car_cost_btn():
-        root5 = Tk()
+        root5 = Toplevel(roota)
         root5.title("Change cost")
-        root5.minsize(250, 100)
+        root5.geometry('250x100+200+200')
         root5.resizable(width=False, height=False)
+        root5.grab_set()
         options = Dealership1.retrive_from_one_db('cars', 'id_car', 'car_model')
         Label(root5, text="Идентификатор").grid(row=1, column=1)
         cost = Entry(root5, width=20)
@@ -199,7 +205,7 @@ def admin():
             if cost.get().isdigit():
                 t = Dealership1.update_car(ids.get(), cost.get())
                 output.insert("0.0", str(t) + "\n")
-                root5.withdraw()
+                root5.destroy()
             else:
                 if not cost.get().isdigit():
                     validator(cost)
@@ -212,10 +218,11 @@ def admin():
 
     def update_lorry_limits_btn():
         # Окно для изменения грузоподъемность
-        root6 = Tk()
+        root6 = Toplevel(roota)
         root6.title("Change weight limit")
-        root6.minsize(250, 100)
+        root6.geometry('250x100+200+200')
         root6.resizable(width=False, height=False)
+        root6.grab_set()
         # поля ввода для добавления записи в бд
         id_lorry = Entry(root6, width=20)
         id_lorry.grid(row=1, column=2)
@@ -228,7 +235,7 @@ def admin():
             if weight_limit.get().isdigit():
                 t = Dealership1.update_lorry(id_lorry.get(), weight_limit.get())
                 output.insert("0.0", str(t) + "\n")
-                root6.withdraw()
+                root6.destroy()
             else:
                 validator(weight_limit)
                 info = "WARNING: Поле 'Грузоперевозка' может содержать только цифры\n"
@@ -240,10 +247,12 @@ def admin():
 
     def del_car_btn():
         # Окно для ввода id записи для удаления
-        root5 = Tk()
+        root5 = Toplevel(roota)
         root5.title("Delete car")
-        root5.minsize(250, 100)
+        # задаем координаты и размеры для вывода окна
+        root5.geometry('250x100+200+200')
         root5.resizable(width=False, height=False)
+        root5.grab_set()
         options = Dealership1.retrive_from_one_db('cars', 'id_car', 'car_model')
         # поля ввода для удаления записи из бд
         Label(root5, text="Идентификатор").grid(row=1, column=1)
@@ -253,7 +262,7 @@ def admin():
         def ok_btn():
             t = Dealership1.delete_car(ids.get())
             output.insert("0.0", str(t) + "\n")
-            root5.withdraw()
+            root5.destroy()
 
         Button(root5, text="Удалить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
         Button(root5, text="Отмена", width=10, height=1, command=root5.destroy).grid(row=9, column=2)
@@ -261,10 +270,11 @@ def admin():
 
     def del_lorry_btn():
         # Окно для ввода id записи для удаления
-        root5 = Tk()
+        root5 = Toplevel(roota)
         root5.title("Delete Lorry")
-        root5.minsize(250, 100)
+        root5.geometry('250x100+200+200')
         root5.resizable(width=False, height=False)
+        root5.grab_set()
         # поля ввода для удаления записи из бд
         id_car = Entry(root5, width=20)
         id_car.grid(row=1, column=2)
@@ -274,7 +284,7 @@ def admin():
             if id_car.get().isdigit():
                 t = Dealership1.delete_lorry(id_car.get())
                 output.insert("0.0", str(t) + "\n")
-                root5.withdraw()
+                root5.destroy()
             else:
                 validator(id_car)
                 info = "WARNING: Поле ID должно содержать только цифры"
@@ -285,10 +295,11 @@ def admin():
         root5.mainloop()
 
     def adminka():
-        root5 = Tk()
+        root5 = Toplevel(roota)
         root5.title("User manager")
-        root5.minsize(300, 30)
+        root5.geometry('300x100+200+200')
         root5.resizable(width=True, height=False)
+        root5.grab_set()
         log = Entry(root5, width=20)
         log.grid(row=1, column=2)
         Label(root5, text="login").grid(row=1, column=1)
@@ -304,7 +315,7 @@ def admin():
             if re.match(r"^[A-Z]\w*[a-z]{1,3}$", pwd.get()) and role.get().isdigit():
                 t = Dealership1.create_user(log.get(), h.hexdigest(), role.get())
                 output.insert("0.0", str(t) + "\n")
-                root5.withdraw()
+                root5.destroy()
             else:
                 info = "WARNING: Пароль может состоять из цифр и букв, но первый символ пароля всегда должен быть " \
                        "заглавной буквой, а последний строчкой буквой. А роль - цифры: 0 - админ, 1 - пользователь с " \
@@ -315,10 +326,12 @@ def admin():
         root5.mainloop()
 
     def del_user():
-        root5 = Tk()
+        root5 = Toplevel(roota)
         root5.title("Delete user")
         root5.minsize(300, 30)
+        root5.geometry('300x60+200+200')
         root5.resizable(width=True, height=False)
+        root5.grab_set()
         id_user = Entry(root5, width=10)
         id_user.grid(row=1, column=2)
         Label(root5, text="ID").grid(row=1, column=1)
@@ -328,7 +341,7 @@ def admin():
             if id_user.get().isdigit():
                 t = Dealership1.del_user(id_user.get())
                 output.insert("0.0", str(t) + "\n")
-                root5.withdraw()
+                root5.destroy()
             else:
                 info = "WARNING: ID - только цифры \n"
                 output.insert(END, info)
