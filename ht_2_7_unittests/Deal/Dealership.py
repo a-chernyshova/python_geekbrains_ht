@@ -32,7 +32,7 @@ class Dealership:
         info = str(datetime.datetime.today())[:19] + " INFO: Соединение закрыто"
         print(info)
         return info
-			
+
     ''' Class methods: '''
     ''' Show all models '''
     def printer_models(self):
@@ -113,7 +113,7 @@ class Dealership:
             print(e)
             return e
 
-    ''' Add car to cars table ''' 
+    ''' Add car to cars table '''
     def add_car(self, car_model, maker, year_production, car_engine, cost):
         try:
             id_car = "select max(id_car) from cars;"
@@ -169,7 +169,7 @@ class Dealership:
             print(e)
             return e
 
-    ''' Add car to dealership ''' 
+    ''' Add car to dealership '''
     def add_car_to_dealership(self, id_car, amount):
         try:
             sql = "INSERT INTO dealership(id_car, amount) VALUES(%s,%s)"
@@ -189,7 +189,7 @@ class Dealership:
             print(e)
             return e
 
-    # Change amount of dealership car with help id 
+    # Change amount of dealership car with help id
     def update_amount(self, id_row, amount):
         try:
             sql = "UPDATE dealership SET amount = %s WHERE id = %s"
@@ -227,7 +227,7 @@ class Dealership:
             print(e)
             return e
 
-    # return dict for dropdown list 
+    # return dict for dropdown list
     def retrive_from_one_db(self, name_db, column1, column2):
         sql = "select {}, {} from {};".format(column1, column2, name_db)
         result = {}
@@ -246,7 +246,7 @@ class Dealership:
             print(e)
             return e
 
-    # Remode car from dealership 
+    # Remode car from dealership
     def delete_car_from_dealership(self, id_row):
         try:
             sql = "DELETE FROM dealership WHERE id = %s"
@@ -264,7 +264,7 @@ class Dealership:
             print(e)
             return e
 
-    # Car cost update 
+    # Car cost update
     def update_car(self, id_car, cost):
         try:
             sql = "UPDATE cars SET cost = %s WHERE id_car = %s"
@@ -282,7 +282,7 @@ class Dealership:
             print(e)
             return e
 
-    # Weight limit update 
+    # Weight limit update
     def update_lorry(self, id_lorry, weight_limit):
         try:
             sql = "UPDATE lorries SET weight_limit = %s WHERE id_lorry = %s"
@@ -317,7 +317,7 @@ class Dealership:
             print(e)
             return e
 
-    # Remove row from related tables Cars, Lorries with help id_car 
+    # Remove row from related tables Cars, Lorries with help id_car
     # FIXME: Почему то не выдает ошибку при удалении не существующей записи
     def delete_lorry(self, id_car):
         try:

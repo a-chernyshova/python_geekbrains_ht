@@ -5,6 +5,7 @@ from tkinter.ttk import Combobox as Combobox
 from GUI.validator import validator
 from Deal.Dealership import Dealership1
 
+
 def admin():
     roota = Tk()
     roota.title("Administration")
@@ -42,7 +43,6 @@ def admin():
                 t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
                                         car_engine.get(), cost.get())
                 output.insert("0.0", str(t) + "\n")
-                #root1.withdraw()
                 root1.destroy()
             else:
 

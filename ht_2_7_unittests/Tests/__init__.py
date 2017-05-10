@@ -43,7 +43,7 @@ class DealershipTest(unittest.TestCase):
         c.execute(sql)
         rows = c.fetchall()
         id_car = rows[0][0]
-        #вычислить id машины из предыдущего теста для добавления
+        # Вычислить id машины из предыдущего теста для добавления
         result = Dealership1.add_car_to_dealership(id_car, 10)
         self.assertEqual(result, str(datetime.datetime.today())[:19] + " INFO: Модель {} добавлена в таблицу "
                                                                        "Dealership".format((id_car, 10)))
