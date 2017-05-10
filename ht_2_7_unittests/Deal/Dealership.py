@@ -8,7 +8,6 @@ from mysql.connector import Error
 
 class Dealership:
 
-    # при создании объекта класса, коннектится к базе
     def __init__(self, host, database, user, password):
         self.host = host
         self.database = database
@@ -24,7 +23,6 @@ class Dealership:
         except Error as e:
             print(e)
 
-    # закрытие соединения с бд
     def break_connection(self):
         connection = mysql.connector.connect(host=self.host,
                                              database=self.database,
@@ -34,8 +32,9 @@ class Dealership:
         info = str(datetime.datetime.today())[:19] + " INFO: Соединение закрыто"
         print(info)
         return info
-
-    # вывести на экран все модели
+			
+    ''' Class methods: '''
+    ''' Show all models '''
     def printer_models(self):
         try:
             sql = "select  distinct cars.car_model, dealership.amount from dealership join cars on cars.id_" \
@@ -55,7 +54,7 @@ class Dealership:
             print(e)
             return e
 
-    # вывести на экран всех производителей
+    ''' Show all makers '''
     def printer_makers(self):
         try:
             sql = "select  distinct cars.maker from dealership join cars on cars.id_car=dealership.id_car"
@@ -74,7 +73,7 @@ class Dealership:
             print(e)
             return e
 
-    # Вывести на экран все доступные автомобили салона
+    ''' Show all dealership cars '''
     def printer_car_dealership(self):
         try:
             sql = "select dealership.id, cars.car_model, cars.maker, cars.car_engine, cars.cost, dealership.amount" \
@@ -95,7 +94,7 @@ class Dealership:
             print(e)
             return e
 
-    # Список автомобилей не в наличии в автосалоне
+    ''' List of unavailable cars '''
     def printer_not_available_car(self):
         try:
             sql = "select distinct cars.car_model, cars.maker, cars.car_engine, cars.cost from cars " \
@@ -114,7 +113,7 @@ class Dealership:
             print(e)
             return e
 
-    # Добавление записи в таблицу Cars
+    ''' Add car to cars table ''' 
     def add_car(self, car_model, maker, year_production, car_engine, cost):
         try:
             id_car = "select max(id_car) from cars;"
@@ -141,7 +140,7 @@ class Dealership:
             print(e)
             return e
 
-    # Добавление записи в связанные таблицы Cars, Lobbies
+    ''' Add car to related tables Cars, Lorries '''
     def add_lorry(self, car_model, maker, year_production, car_engine, cost, weight_limit):
         try:
             id_car1 = "select max(id_car) from cars;"
@@ -170,7 +169,7 @@ class Dealership:
             print(e)
             return e
 
-    # Добавление автомобиля в салон
+    ''' Add car to dealership ''' 
     def add_car_to_dealership(self, id_car, amount):
         try:
             sql = "INSERT INTO dealership(id_car, amount) VALUES(%s,%s)"
@@ -190,7 +189,7 @@ class Dealership:
             print(e)
             return e
 
-    # Изменить кол-во автомобилей в салоне по id
+    # Change amount of dealership car with help id 
     def update_amount(self, id_row, amount):
         try:
             sql = "UPDATE dealership SET amount = %s WHERE id = %s"
@@ -209,7 +208,7 @@ class Dealership:
             print(e)
             return e
 
-    # для выпадающих списков - взвращает словарь из связанных таблиц
+    # Return dict for dropdown lists
     def return_dict(self):
         sql = "select d.id, cars.car_model from dealership d join cars on d.id_car = cars.id_car;"
         result = {}
@@ -228,7 +227,7 @@ class Dealership:
             print(e)
             return e
 
-    # для выпадающих списков - взвращает словарь
+    # return dict for dropdown list 
     def retrive_from_one_db(self, name_db, column1, column2):
         sql = "select {}, {} from {};".format(column1, column2, name_db)
         result = {}
@@ -247,7 +246,7 @@ class Dealership:
             print(e)
             return e
 
-    # Удалить линейку автомобилей из салона - ПОЧЕМУ НЕ РАБОТАЕТ??
+    # Remode car from dealership 
     def delete_car_from_dealership(self, id_row):
         try:
             sql = "DELETE FROM dealership WHERE id = %s"
@@ -265,7 +264,7 @@ class Dealership:
             print(e)
             return e
 
-    # Обновить цену машины
+    # Car cost update 
     def update_car(self, id_car, cost):
         try:
             sql = "UPDATE cars SET cost = %s WHERE id_car = %s"
@@ -283,7 +282,7 @@ class Dealership:
             print(e)
             return e
 
-    # Обновить грузоподъемность
+    # Weight limit update 
     def update_lorry(self, id_lorry, weight_limit):
         try:
             sql = "UPDATE lorries SET weight_limit = %s WHERE id_lorry = %s"
@@ -318,8 +317,8 @@ class Dealership:
             print(e)
             return e
 
-    # Удаление записей из связанных таблиц Cars, Lorries по id_car
-    # Почему то не выдает ошибку при удалении не существующей записи
+    # Remove row from related tables Cars, Lorries with help id_car 
+    # FIXME: Почему то не выдает ошибку при удалении не существующей записи
     def delete_lorry(self, id_car):
         try:
             sql1 = "DELETE FROM lorries WHERE id_car = %s"
@@ -340,7 +339,7 @@ class Dealership:
             print(e)
             return e
 
-    # Поиск модели в Car_dealership
+    # Search model in Car_dealership
     def search_car_model(self, model):
         try:
             sql = "SELECT dealership.id, cars.car_model, cars.year_production, cars.car_engine, " \
@@ -359,7 +358,7 @@ class Dealership:
             print(e)
             return e
 
-    # Поиск по производителю в Car_dealership
+    # Search maker in Car_dealership
     def search_car_maker(self, maker):
         try:
             sql = "SELECT dealership.id, cars.car_model, cars.year_production, cars.car_engine, " \
@@ -457,3 +456,4 @@ class Dealership:
             return e
 
 Dealership1 = Dealership('localhost', 'dealership', 'root', 'password')
+print(help(__name__))
