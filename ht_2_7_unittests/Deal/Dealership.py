@@ -37,16 +37,16 @@ class Dealership:
     ''' Show all models '''
     def printer_models(self):
         try:
-            sql = "select  distinct cars.car_model, dealership.amount from dealership join cars on cars.id_" \
-                  "car=dealership.id_car group by cars.car_model;"
+            sql = "select  distinct cars.car_model, dealership.amount from dealership " \
+                  "join cars on cars.id_car=dealership.id_car group by cars.car_model;"
             connection = mysql.connector.connect(host=self.host,
                                                  database=self.database,
                                                  user=self.user,
                                                  password=self.password)
             c = connection.cursor()
             c.execute(sql)
-            print(str(datetime.datetime.today())[:19] + " INFO: Выведен список моделей автомобилей, доступных в "
-                                                        "автоцентре в output")
+            print(str(datetime.datetime.today())[:19] + " INFO: Выведен список моделей "
+                                                        "автомобилей, доступных в автоцентре в output")
             rows = c.fetchall()
             return rows
         except Error as e:
@@ -64,8 +64,8 @@ class Dealership:
                                                  password=self.password)
             c = connection.cursor()
             c.execute(sql)
-            print(str(datetime.datetime.today())[:19] + " INFO: Выведен список производителей автомобилей, доступных в "
-                                                        "автоцентре в output")
+            print(str(datetime.datetime.today())[:19] + " INFO: Выведен список производителей автомобилей, "
+                                                        "доступных в автоцентре в output")
             rows = c.fetchall()
             print(rows)
             return rows
@@ -76,16 +76,16 @@ class Dealership:
     ''' Show all dealership cars '''
     def printer_car_dealership(self):
         try:
-            sql = "select dealership.id, cars.car_model, cars.maker, cars.car_engine, cars.cost, dealership.amount" \
-                  " from dealership join cars on cars.id_car=dealership.id_car"
+            sql = "select dealership.id, cars.car_model, cars.maker, cars.car_engine, cars.cost, " \
+                  "dealership.amount from dealership join cars on cars.id_car=dealership.id_car"
             connection = mysql.connector.connect(host=self.host,
                                                  database=self.database,
                                                  user=self.user,
                                                  password=self.password)
             c = connection.cursor()
             c.execute(sql)
-            print(str(datetime.datetime.today())[:19] + "INFO: Выведен подробный список автомобилей, доступных в "
-                                                        "автоцентре в output")
+            print(str(datetime.datetime.today())[:19] + "INFO: Выведен подробный список автомобилей, "
+                                                        "доступных в автоцентре в output")
             rows = c.fetchall()
             for row in rows:
                 print(row)
@@ -105,8 +105,8 @@ class Dealership:
                                                  password=self.password)
             c = connection.cursor()
             c.execute(sql)
-            print(str(datetime.datetime.today())[:19] + " INFO: Список автомобилей, не доступных в автоцентре на "
-                                                        "данный момент в output")
+            print(str(datetime.datetime.today())[:19] + " INFO: Список автомобилей, не доступных в "
+                                                        "автоцентре на данный момент в output")
             rows = c.fetchall()
             return rows
         except Error as e:
@@ -257,7 +257,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (id_row,))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Удалена запись {} в таблице Dealership".format(id_row))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Удалена запись {} "
+                                                          "в таблице Dealership".format(id_row))
             print(info)
             return info
         except Error as e:
@@ -275,7 +276,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (cost, id_car))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Обновлена запись {} в таблице Car".format(id_car))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Обновлена "
+                                                          "запись {} в таблице Car".format(id_car))
             print(info)
             return info
         except Error as e:
@@ -293,7 +295,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (weight_limit, id_lorry))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Обновлена запись {} в таблице Lorry".format(id_lorry))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Обновлена "
+                                                          "запись {} в таблице Lorry".format(id_lorry))
             print(info)
             return info
         except Error as e:
@@ -310,7 +313,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (id_car,))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Удалена запись ID{} в таблице Cars".format(id_car))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Удалена запись "
+                                                          "ID{} в таблице Cars".format(id_car))
             print(info)
             return info
         except Error as e:
@@ -331,8 +335,8 @@ class Dealership:
             c.execute(sql1, (int(id_car),))
             c.execute(sql2, (int(id_car),))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Удалена запись ID{} в таблицах Lorries, "
-                                                          "Cars".format(id_car))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Удалена запись ID{} "
+                                                          "в таблицах Lorries, Cars".format(id_car))
             print(info)
             return info
         except Error as e:
@@ -343,8 +347,8 @@ class Dealership:
     def search_car_model(self, model):
         try:
             sql = "SELECT dealership.id, cars.car_model, cars.year_production, cars.car_engine, " \
-                  "cars.cost, dealership.amount FROM dealership JOIN cars on cars.id_car = dealership.id_car " \
-                  "where cars.car_model = %s;"
+                  "cars.cost, dealership.amount FROM dealership JOIN cars on " \
+                  "cars.id_car = dealership.id_car where cars.car_model = %s;"
             connection = mysql.connector.connect(host=self.host,
                                                  database=self.database,
                                                  user=self.user,
@@ -352,7 +356,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (model,))
             rows = c.fetchall()
-            print(str(datetime.datetime.today())[:19] + " INFO: Результаты поиска модели {} в таблице Dealership".format(model))
+            print(str(datetime.datetime.today())[:19] + " INFO: Результаты поиска модели {} "
+                                                        "в таблице Dealership".format(model))
             return rows
         except Error as e:
             print(e)
@@ -362,8 +367,8 @@ class Dealership:
     def search_car_maker(self, maker):
         try:
             sql = "SELECT dealership.id, cars.car_model, cars.year_production, cars.car_engine, " \
-                  "cars.cost, dealership.amount FROM dealership JOIN cars on cars.id_car = dealership.id_car " \
-                  "where cars.maker = %s;"
+                  "cars.cost, dealership.amount FROM dealership JOIN cars on " \
+                  "cars.id_car = dealership.id_car where cars.maker = %s;"
             connection = mysql.connector.connect(host=self.host,
                                                  database=self.database,
                                                  user=self.user,
@@ -371,7 +376,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (maker,))
             rows = c.fetchall()
-            print(str(datetime.datetime.today())[:19] + " INFO: Результаты поиска моделей по производителю {} в таблице"
+            print(str(datetime.datetime.today())[:19] + " INFO: Результаты поиска моделей "
+                                                        "по производителю {} в таблице"
                                                         " Dealership".format(maker))
             return rows
         except Error as e:
@@ -432,7 +438,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (id_user,))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Удален user ID{} в таблице Users".format(id_user))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Удален user ID{} "
+                                                          "в таблице Users".format(id_user))
             print(info)
             return info
         except Error as e:

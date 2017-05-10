@@ -41,9 +41,11 @@ def markup():
     def print_car_btn():
         output.delete('1.0', END)
         texts = Dealership1.printer_car_dealership()
-        output.insert("1.0", " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+        output.insert("1.0", " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
+                             "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
         for i in texts:
-            output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+            output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}"
+                               "{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
         output.insert(END, "\n Total amount:{}\n".format(len(texts)))
 
     def print_not_available_car_btn():
@@ -109,9 +111,11 @@ def markup():
             output.insert("1.0", "Результаты поиска\n")
             texts = Dealership1.search_car_model(model.get())
             if texts:
-                output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+                output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
+                                   "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
                 for i in texts:
-                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}"
+                                       "{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
                 output.insert(END, "\n Total amount:{}\n".format(len(texts)))
                 root5.destroy()
             else:
@@ -141,9 +145,11 @@ def markup():
                 output.insert("1.0", "Результаты поиска\n")
                 texts = Dealership1.search_car_maker(maker.get())
                 if texts:
-                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
+                                       "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
                     for i in texts:
-                        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+                        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}"
+                                           "{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
                         root5.destroy()
                     output.insert(END, "\n Total amount:{}\n".format(len(texts)))
                 else:
@@ -165,11 +171,18 @@ def markup():
         text = Text(root5, height=15, width=70)
         root5.geometry('650x300+200+200')
         root5.grab_set()
-        text.insert(INSERT, "Задание:\nПредметная область – автосалон. \nРазработать класс Car_dealership, описывающий работу "
-                            "автосалона.\nРазработать класс Car, автомобиль описывается следующими параметрами:\nуникальный"
-                            "идентификатор,\nмарка автомобиля, \nстрана-производитель, \nгод выпуска, \nобъём двигателя,\n"
-                            "стоимость.\nРазработать класс Lorry на базе класс Car, грузовик характеризуется: \nвесовым "
-                            "ограничение перевозки\n\nВыполнил: Чернышова Анастасия")
+        text.insert(INSERT, "Задание:\nПредметная область – автосалон. "
+                            "\nРазработать класс Car_dealership, описывающий работу автосалона."
+                            "\nРазработать класс Car, автомобиль описывается следующими параметрами:"
+                            "\nуникальный идентификатор,"
+                            "\nмарка автомобиля, "
+                            "\nстрана-производитель, "
+                            "\nгод выпуска, "
+                            "\nобъём двигателя,"
+                            "\nстоимость."
+                            "\nРазработать класс Lorry на базе класс Car, грузовик характеризуется: "
+                            "\nвесовым ограничение перевозки\n"
+                            "\nВыполнил: Чернышова Анастасия")
         text.grid(row=1, column=1)
         Button(root5, text="Понятно", width=10, height=1, command=root5.destroy).grid(row=2, column=2)
         root.mainloop()
@@ -187,8 +200,8 @@ def markup():
         grid(row=4, column=1)
     Button(root, text="Search maker", bg="light blue", font="Comic", width=18, command=search_maker_btn).\
         grid(row=5, column=1)
-    Button(root, text="Not available cars", font="Comic", bg="light blue", width=18, command=print_not_available_car_btn)\
-        .grid(row=6, column=1)
+    Button(root, text="Not available cars", font="Comic", bg="light blue", width=18,
+           command=print_not_available_car_btn).grid(row=6, column=1)
 
     # Отрисовка меню бар
     menubar = Menu(root)

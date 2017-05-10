@@ -52,7 +52,7 @@ def common_user_interface():
             output.insert(END, " {:<3}{:<18}{:<12}{:<10}".format(n, i[0], i[1], i[2], i[3])+"\n")
         output.insert(END, "\n Total amount:{}\n".format(len(cars)))
 
-    # автоматически добавлять к названию файла дату и не спрашивать расширение - добавлять .txt
+    # TODO: автоматически добавлять к названию файла дату и .txt
     def export_notavailable_btn():
         root1 = Toplevel(root)
         root1.title("Export to file")
@@ -115,8 +115,8 @@ def common_user_interface():
 
         def ok_btn():
             if year_production.get().isdigit() and cost.get().isdigit() and maker.get().isalpha():
-                t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
-                                        car_engine.get(), cost.get())
+                t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(),
+                                        year_production.get(), car_engine.get(), cost.get())
                 output.insert("0.0", str(t) + "\n")
                 root1.destroy()
             else:
@@ -129,7 +129,8 @@ def common_user_interface():
                 if not maker.get().isalpha():
                     validator(maker)
 
-                info = "WARNING: Поля цена, год выпуска должны сожержать цифры; производитель - только буквы\n"
+                info = "WARNING: Поля цена, год выпуска должны сожержать цифры; " \
+                       "производитель - только буквы\n"
                 print(info)
                 output.insert(END, info)
         Button(root1, text="Добавить", width=10, height=1, command=ok_btn).grid(row=8, column=1)
@@ -164,8 +165,8 @@ def common_user_interface():
         def ok_btn():
             if year_production.get().isdigit() and cost.get().isdigit() and \
                     weight_limit.get().isdigit():
-                t = Dealership1.add_lorry(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
-                                          car_engine.get(), cost.get(), weight_limit.get())
+                t = Dealership1.add_lorry(car_model.get().capitalize(), maker.get().upper(),
+                                          year_production.get(), car_engine.get(), cost.get(), weight_limit.get())
                 output.insert("0.0", str(t) + "\n")
                 root2.destroy()
             else:
@@ -393,9 +394,11 @@ def common_user_interface():
             output.insert("1.0", "Результаты поиска\n")
             texts = Dealership1.search_car_model(model.get())
             if texts:
-                output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+                output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
+                                   "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
                 for i in texts:
-                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}"
+                                       "{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
                 output.insert(END, "\n Total amount:{}\n".format(len(texts)))
                 root5.destroy()
             else:
@@ -425,9 +428,11 @@ def common_user_interface():
                 output.insert("1.0", "Результаты поиска\n")
                 texts = Dealership1.search_car_maker(maker.get())
                 if texts:
-                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
+                    output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
+                                       "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
                     for i in texts:
-                        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
+                        output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}"
+                                           "{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
                         root5.destroy()
                     output.insert(END, "\n Total amount:{}\n".format(len(texts)))
                 else:
@@ -449,11 +454,18 @@ def common_user_interface():
         text = Text(root5, height=15, width=70)
         root5.geometry('650x300+200+200')
         root5.grab_set()
-        text.insert(INSERT, "Задание:\nПредметная область – автосалон. \nРазработать класс Car_dealership, описывающий работу "
-                            "автосалона.\nРазработать класс Car, автомобиль описывается следующими параметрами:\nуникальный"
-                            "идентификатор,\nмарка автомобиля, \nстрана-производитель, \nгод выпуска, \nобъём двигателя,\n"
-                            "стоимость.\nРазработать класс Lorry на базе класс Car, грузовик характеризуется: \nвесовым "
-                            "ограничение перевозки\n\nВыполнил: Чернышова Анастасия")
+        text.insert(INSERT, "Задание:\nПредметная область – автосалон. "
+                            "\nРазработать класс Car_dealership, описывающий работу автосалона."
+                            "\nРазработать класс Car, автомобиль описывается следующими параметрами:"
+                            "\nуникальный идентификатор,"
+                            "\nмарка автомобиля, "
+                            "\nстрана-производитель, "
+                            "\nгод выпуска, "
+                            "\nобъём двигателя,"
+                            "\nстоимость."
+                            "\nРазработать класс Lorry на базе класс Car, грузовик характеризуется: "
+                            "\nвесовым ограничение перевозки\n"
+                            "\nВыполнил: Чернышова Анастасия")
         text.grid(row=1, column=1)
         Button(root5, text="Понятно", width=10, height=1, command=root5.destroy).grid(row=2, column=2)
         root.mainloop()
@@ -470,15 +482,15 @@ def common_user_interface():
     Button(root, text="Add car to cars list", bg="grey", font="Comic", width=18, command=add_car_btn).\
         grid(row=5, column=2)
     Button(root, text="Add car to dealership", font="Comic", bg="grey", width=18,
-                                   command=add_car_to_ds_btn).grid(row=6, column=2)
+           command=add_car_to_ds_btn).grid(row=6, column=2)
     Button(root, text="Add lorry", bg="grey", width=18, font="Comic", command=add_lorry_btn).\
         grid(row=7, column=2)
 
     # Группа кнопок для изменения данных в базе
-    btn_update_amount = Button(root, text="Change amount", bg="yellow", font="Comic", width=18, command=update_amount_btn).\
-        grid(row=5, column=4)
-    btn_update_cost = Button(root, text="Change cost", bg="yellow", font="Comic", width=18, command=update_car_cost_btn).\
-        grid(row=6, column=4)
+    btn_update_amount = Button(root, text="Change amount", bg="yellow", font="Comic", width=18,
+                               command=update_amount_btn).grid(row=5, column=4)
+    btn_update_cost = Button(root, text="Change cost", bg="yellow", font="Comic",
+                             width=18, command=update_car_cost_btn).grid(row=6, column=4)
     btn_update_lorry_limits = Button(root, text="Change weight limit", font="Comic", bg="yellow", width=18,
                                      command=update_lorry_limits_btn).grid(row=7, column=4)
 
@@ -491,10 +503,10 @@ def common_user_interface():
         grid(row=7, column=3)
 
     # Остальные команды - поиск и вывод не доступных в автосалоне машин
-    btn_search_model = Button(root, text="Search model", bg="light blue", font="Comic", width=18, command=search_model_btn).\
-        grid(row=5, column=5)
-    btn_search_maker = Button(root, text="Search maker", bg="light blue", font="Comic", width=18, command=search_maker_btn).\
-        grid(row=6, column=5)
+    btn_search_model = Button(root, text="Search model", bg="light blue", font="Comic",
+                              width=18, command=search_model_btn).grid(row=5, column=5)
+    btn_search_maker = Button(root, text="Search maker", bg="light blue", font="Comic",
+                              width=18, command=search_maker_btn).grid(row=6, column=5)
     btn_show_unavailable = Button(root, text="Not available cars", font="Comic", bg="light blue", width=18,
                                   command=print_not_available_car_btn).grid(row=7, column=5)
 

@@ -40,8 +40,8 @@ def admin():
 
         def ok_btn():
             if year_production.get().isdigit() and cost.get().isdigit() and maker.get().isalpha():
-                t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
-                                        car_engine.get(), cost.get())
+                t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(),
+                                        year_production.get(), car_engine.get(), cost.get())
                 output.insert("0.0", str(t) + "\n")
                 root1.destroy()
             else:
@@ -55,7 +55,8 @@ def admin():
                 if not maker.get().isalpha():
                     validator(maker)
 
-                info = "WARNING: Поля цена, год выпуска должны сожержать цифры; производитель - только буквы\n"
+                info = "WARNING: Поля цена, год выпуска должны сожержать цифры; " \
+                       "производитель - только буквы\n"
                 print(info)
                 output.insert(END, info)
         Button(root1, text="Добавить", width=10, height=1, command=ok_btn).grid(row=8, column=1)
@@ -90,7 +91,8 @@ def admin():
         def ok_btn():
             if year_production.get().isdigit() and cost.get().isdigit() and \
                     weight_limit.get().isdigit():
-                t = Dealership1.add_lorry(car_model.get().capitalize(), maker.get().upper(), year_production.get(),
+                t = Dealership1.add_lorry(car_model.get().capitalize(),
+                                          maker.get().upper(), year_production.get(),
                                           car_engine.get(), cost.get(), weight_limit.get())
                 output.insert("0.0", str(t) + "\n")
                 root2.destroy()
@@ -102,7 +104,8 @@ def admin():
                 if not weight_limit.get().isdigit():
                     validator(weight_limit)
 
-                info = "WARNING: Поля id, цена, год выпуска и весовые ограничения должны сожержать цифры\n"
+                info = "WARNING: Поля id, цена, год выпуска и весовые ограничения " \
+                       "должны сожержать цифры\n"
                 print(info)
                 output.insert(END, info)
         Button(root2, text="Добавить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
@@ -213,7 +216,8 @@ def admin():
             else:
                 if not cost.get().isdigit():
                     validator(cost)
-                info = "WARNING: Некорректные параметры запроса, поле должны содержать только цифры\n"
+                info = "WARNING: Некорректные параметры запроса, поле должны " \
+                       "содержать только цифры\n"
                 print(info)
                 output.insert(END, info)
         Button(root5, text="Сохранить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
@@ -316,6 +320,7 @@ def admin():
         role = Entry(root5, width=20)
         role.grid(row=3, column=2)
         Label(root5, text='role (0-1-2)').grid(row=3, column=1)
+
         def ok_btn():
             h = pwd.get().encode()
             h = hashlib.md5(h)
@@ -324,8 +329,9 @@ def admin():
                 output.insert("0.0", str(t) + "\n")
                 root5.destroy()
             else:
-                info = "WARNING: Пароль может состоять из цифр и букв, но первый символ пароля всегда должен быть " \
-                       "заглавной буквой, а последний строчкой буквой. А роль - цифры: 0 - админ, 1 - пользователь с " \
+                info = "WARNING: Пароль может состоять из цифр и букв, но первый символ " \
+                       "пароля всегда должен быть заглавной буквой, а последний строчкой буквой. " \
+                       "А роль - цифры: 0 - админ, 1 - пользователь с " \
                        "правами на редактирование, 2 - пользователь с правами на просмотр \n"
                 output.insert(END, info)
         Button(root5, text="Create", width=10, height=1, command=ok_btn).grid(row=4, column=2)
@@ -363,28 +369,32 @@ def admin():
         output.insert('1.0', " {:<3} {:<10} {:<35} {:<10}".format("ID", "Login", "Password", "Role\n"))
         roles = {0: 'admin', 1: 'manager', 2: 'for read'}
         for line in texts:
-            output.insert(END, "\n {:<3} {:<10} {:<35} {:<10}".format(str(line[0]), str(line[1]), str(line[2]), roles[int(line[3])]))
+            output.insert(END, "\n {:<3} {:<10} {:<35} "
+                               "{:<10}".format(str(line[0]), str(line[1]), str(line[2]), roles[int(line[3])]))
         output.insert(END, "\n\n Total amount of users:{}\n".format(len(texts)))
 
-    Button(roota, text="Add car to cars list", font="Comic", width=25, command=add_car_btn).grid(row=5, column=2)
-    Button(roota, text="Add car to dealership", font="Comic", width=25, command=add_car_to_ds_btn).grid(row=6, column=2)
-    Button(roota, text="Add lorry", width=25, font="Comic", command=add_lorry_btn).grid(row=7, column=2)
+    Button(roota, text="Add car to cars list", font="Comic", width=25,
+           command=add_car_btn).grid(row=5, column=2)
+    Button(roota, text="Add car to dealership", font="Comic", width=25,
+           command=add_car_to_ds_btn).grid(row=6, column=2)
+    Button(roota, text="Add lorry", width=25, font="Comic",
+           command=add_lorry_btn).grid(row=7, column=2)
 
     # Группа кнопок для изменения данных в базе
-    Button(roota, text="Change amount", bg="yellow", font="Comic", width=22, command=update_amount_btn).\
-        grid(row=5, column=4)
-    Button(roota, text="Change cost", bg="yellow", font="Comic", width=22, command=update_car_cost_btn).\
-        grid(row=6, column=4)
-    Button(roota, text="Change weight limit", font="Comic", bg="yellow", width=22, command=update_lorry_limits_btn).\
-        grid(row=7, column=4)
+    Button(roota, text="Change amount", bg="yellow", font="Comic", width=22,
+           command=update_amount_btn).grid(row=5, column=4)
+    Button(roota, text="Change cost", bg="yellow", font="Comic", width=22,
+           command=update_car_cost_btn).grid(row=6, column=4)
+    Button(roota, text="Change weight limit", font="Comic", bg="yellow", width=22,
+           command=update_lorry_limits_btn).grid(row=7, column=4)
 
     # Группа кнопок для удаления данных из базы
-    Button(roota, text="Del car from dealership", font="Comic", bg="light blue", width=21, command=del_car_from_ds_btn).\
-        grid(row=5, column=3)
-    Button(roota, text="Del car from list", bg="light blue", width=21, font="Comic", command=del_car_btn).\
-        grid(row=6, column=3)
-    Button(roota, text="Del lorry", bg="light blue", width=21, font="Comic", command=del_lorry_btn).\
-        grid(row=7, column=3)
+    Button(roota, text="Del car from dealership", font="Comic", bg="light blue",
+           width=21, command=del_car_from_ds_btn).grid(row=5, column=3)
+    Button(roota, text="Del car from list", bg="light blue", width=21,
+           font="Comic", command=del_car_btn).grid(row=6, column=3)
+    Button(roota, text="Del lorry", bg="light blue", width=21, font="Comic",
+           command=del_lorry_btn).grid(row=7, column=3)
 
     # Отрисовка меню бар
     menubar = Menu(roota)
