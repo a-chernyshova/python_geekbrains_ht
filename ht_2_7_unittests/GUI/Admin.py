@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from tkinter import *
 import hashlib
-from GUI.validator import validator
+from tkinter import *
 from tkinter.ttk import Combobox as Combobox
+from GUI.validator import validator
 from Deal.Dealership import Dealership1
 
 def admin():
@@ -180,7 +180,11 @@ def admin():
         ids.grid(row=1, column=2)
 
         def ok_btn():
-            t = Dealership1.delete_car_from_dealership(ids.get())
+            x = ids.get()
+            for key, value in options.items():
+                if value == x:
+                    id_car = key
+            t = Dealership1.delete_car_from_dealership(id_car)
             output.insert("0.0", str(t) + "\n")
             root5.destroy()
         Button(root5, text="Удалить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
@@ -260,7 +264,11 @@ def admin():
         ids.grid(row=1, column=2)
 
         def ok_btn():
-            t = Dealership1.delete_car(ids.get())
+            x = ids.get()
+            for key, value in options.items():
+                if value == x:
+                    id_car = key
+            t = Dealership1.delete_car(id_car)
             output.insert("0.0", str(t) + "\n")
             root5.destroy()
 
@@ -276,20 +284,19 @@ def admin():
         root5.resizable(width=False, height=False)
         root5.grab_set()
         # поля ввода для удаления записи из бд
-        id_car = Entry(root5, width=20)
-        id_car.grid(row=1, column=2)
+        options = Dealership1.retrive_from_2_tables()
+        ids = Combobox(root5, value=list(options.values()), width=18)
+        ids.grid(row=1, column=2)
         Label(root5, text="Идентификатор").grid(row=1, column=1)
 
         def ok_btn():
-            if id_car.get().isdigit():
-                t = Dealership1.delete_lorry(id_car.get())
-                output.insert("0.0", str(t) + "\n")
-                root5.destroy()
-            else:
-                validator(id_car)
-                info = "WARNING: Поле ID должно содержать только цифры"
-                print(info)
-                output.insert(END, info)
+            x = ids.get()
+            for key, value in options.items():
+                if value == x:
+                    id_car = key
+            t = Dealership1.delete_lorry(id_car)
+            output.insert("0.0", str(t) + "\n")
+            root5.destroy()
         Button(root5, text="Удалить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
         Button(root5, text="Отмена", width=10, height=1, command=root5.destroy).grid(row=9, column=2)
         root5.mainloop()

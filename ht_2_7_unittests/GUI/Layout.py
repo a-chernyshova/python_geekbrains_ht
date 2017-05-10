@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from tkinter import *
 import threading
+from tkinter import *
 from Deal.Dealership import Dealership1
 from GUI.validator import validator
 

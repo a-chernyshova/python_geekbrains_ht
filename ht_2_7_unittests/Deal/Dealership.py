@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import mysql.connector
-from mysql.connector import Error
 import time
 import hashlib
 import datetime
+import mysql.connector
+from mysql.connector import Error
 
 
 class Dealership:
@@ -49,7 +49,6 @@ class Dealership:
             print(str(datetime.datetime.today())[:19] + " INFO: Выведен список моделей автомобилей, доступных в "
                                                         "автоцентре в output")
             rows = c.fetchall()
-            #rows.insert(0, ("№", "Model name"))
             return rows
         except Error as e:
             # вывод и в лог и в GUI
@@ -120,7 +119,7 @@ class Dealership:
         try:
             id_car = "select max(id_car) from cars;"
             sql = "INSERT INTO Cars(id_car, car_model, maker, year_production, car_engine, cost)" \
-                      " VALUES(%s,%s,%s,%s,%s,%s)"
+                  "VALUES(%s,%s,%s,%s,%s,%s)"
 
             connection = mysql.connector.connect(host=self.host,
                                                  database=self.database,
@@ -146,9 +145,8 @@ class Dealership:
     def add_lorry(self, car_model, maker, year_production, car_engine, cost, weight_limit):
         try:
             id_car1 = "select max(id_car) from cars;"
-            sql1 = "INSERT INTO Cars(id_car, car_model, maker, year_production, car_engine, cost)" \
-                      " VALUES(%s, %s, %s, %s, %s, %s)"
-
+            sql1 = "INSERT INTO Cars(id_car, car_model, maker, year_production, car_engine, cost) " \
+                   "VALUES(%s, %s, %s, %s, %s, %s)"
             sql2 = "INSERT INTO Lorries(id_car, weight_limit) VALUES(%s, %s)"
 
             connection = mysql.connector.connect(host=self.host,
@@ -159,7 +157,6 @@ class Dealership:
             c.execute(id_car1)
             id_car1 = c.fetchall()
             id_car1 = list(id_car1)[0][0] + 1
-
             args1 = (id_car1, car_model, maker, year_production, car_engine, cost)
             args2 = (id_car1, weight_limit)
             c.execute(sql1, args1)
@@ -185,7 +182,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, args)
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Модель {} добавлена в таблицу Dealership".format(args))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Модель {} добавлена в таблицу "
+                                                          "Dealership".format(args))
             print(info)
             return info
         except Error as e:
@@ -203,7 +201,8 @@ class Dealership:
             c = connection.cursor()
             c.execute(sql, (amount, id_row))
             connection.commit()
-            info = (str(datetime.datetime.today())[:19] + " INFO: Обновлена запись {} в таблице Dealership".format(id_row))
+            info = (str(datetime.datetime.today())[:19] + " INFO: Обновлена запись {} в таблице "
+                                                          "Dealership".format(id_row))
             print(info)
             return info
         except Error as e:

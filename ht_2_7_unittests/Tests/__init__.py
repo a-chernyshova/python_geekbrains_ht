@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
-from Deal.Dealership import Dealership
 import hashlib
 import datetime
 import mysql.connector
 import random
+from Deal.Dealership import Dealership
 
 
 class DealershipTest(unittest.TestCase):
@@ -138,7 +138,7 @@ class DealershipTest(unittest.TestCase):
         result = Dealership1.printer_car_dealership()
         self.assertTrue(result)
 
-    def test_print_notavailable(self):
+    def test_print_not_available(self):
         result = Dealership1.printer_not_available_car()
         self.assertTrue(result)
 

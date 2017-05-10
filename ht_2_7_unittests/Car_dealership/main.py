@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
+import datetime
 from GUI.Admin import admin
 from GUI.Layout import markup
 from GUI.Regular import common_user_interface
-import datetime
 from GUI.validator import validator
 from Deal.Dealership import Dealership1
 
@@ -11,7 +11,6 @@ from Deal.Dealership import Dealership1
 root = Tk()
 root.title("Authorization")
 root.geometry('250x70+350+275')
-#root.minsize(200, 70)
 root.resizable(width=False, height=False)
 log = Entry(root, width=20)
 log.grid(row=1, column=2, padx=(1, 1))
