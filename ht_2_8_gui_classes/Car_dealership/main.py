@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 from tkinter import *
 import datetime
 from GUI.Admin import Admin
 from GUI.Reader import Reader
 from GUI.Regular import Manager
 from GUI.validator import validator
-from Deal.Dealership import Dealership1
+from Deal.Dealership import Dealership_object
 
-
+# CR: move all strig static values to constants
+# CR: move window creation to a separate function
 root = Tk()
 root.title("Authorization")
 root.geometry('250x70+350+275')
 root.resizable(width=False, height=False)
+# CR: log is a bad name
 log = Entry(root, width=20)
 log.grid(row=1, column=2, padx=(1, 1))
 Label(root, text="Login", width=15).grid(row=1, column=1)
@@ -26,11 +27,15 @@ def authorization():
     password = passwd.get()
 
     if login.isalnum() and password.isalnum():
-        text = Dealership1.authorization(login, password)
+        text = Dealership_object.authorization(login, password)
         # отображение интерфейса администратора
+        # CR: rename roles to something meaningful
         if str(text[0]) == '1':
+            #CR: use strftime for date formatting instead of :19
             print(str(datetime.datetime.today())[:19] + " INFO: Login & password "
-                                                        "are correct. Welcome for ADMIN")
+                                                         "are correct. Welcome for ADMIN")
+
+            # CR: repeatable code should be moved to a function
             root.withdraw()
             interface = Admin()
             interface.gui()
@@ -42,12 +47,14 @@ def authorization():
             interface = Manager()
             interface.gui()
         elif str(text[0]) == '2':
+            # CR: don't mix languages
             print(str(datetime.datetime.today())[:19] + " INFO: Получен доступ "
                                                         "только на просмотр данных")
             root.withdraw()
             interface = Reader()
             interface.gui()
         # окно с ошибкой
+        # CR: move error window into separate function and give it self-explainable name
         else:
             rooter = Tk()
             rooter.title("ERROR")
@@ -68,6 +75,8 @@ def authorization():
         else:
             validator(log)
             validator(passwd)
+
+        # CR: reuse same window creation code for both cases
         rooter = Tk()
         rooter.title("ERROR")
         root.minsize(50, 50)
@@ -80,4 +89,4 @@ def authorization():
 Button(root, text="LogIn", width=10, height=1, command=authorization).grid(row=3, column=1, padx=(1, 1))
 Button(root, text="Cancel", width=10, height=1, command=root.destroy).grid(row=3, column=2, padx=(1, 1))
 root.mainloop()
-Dealership1.break_connection()
+Dealership_object.break_connection()

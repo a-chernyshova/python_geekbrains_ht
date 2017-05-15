@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from GUI.default import DefaultInterface
-from Deal.Dealership import Dealership1
+from Deal.Dealership import Dealership_object
 
 
 class Admin(DefaultInterface):
@@ -18,6 +18,7 @@ class Admin(DefaultInterface):
         self.output.configure(yscrollcommand=self.src.set)
         self.src.grid(row=1, column=6, sticky=NS)
 
+    # CR: Move all subsets of commands to separate, self-explainable functions
     def gui(self):
         Button(self.root, text="Add car to cars list", bg="light blue", font="Comic", width=20,
                command=self.add_car_btn).grid(row=5, column=1)
@@ -70,4 +71,4 @@ class Admin(DefaultInterface):
         # display the menu
         self.root.config(menu=menubar)
         self.root.mainloop()
-        Dealership1.break_connection()
+        Dealership_object.break_connection()

@@ -5,7 +5,7 @@ import datetime
 import mysql.connector
 from mysql.connector import Error
 
-
+# CR: Rename to DealershipDAO (Database Access Object)
 class Dealership:
 
     def __init__(self, host, database, user, password):
@@ -14,6 +14,7 @@ class Dealership:
         self.user = user
         self.password = password
         try:
+            # CR: create connection in _init_ method once and then reuse it everywhere. don't create it every time
             connection = mysql.connector.connect(host=host,
                                                  database=database,
                                                  user=user,
@@ -21,13 +22,16 @@ class Dealership:
             if connection.is_connected():
                 print(str(datetime.datetime.today())[:19] + " INFO: Connected to MySQL db")
         except Error as e:
+            # CR: re-throw exception or exit the program with ERROR. don't allow it to go forward.
             print(e)
 
+    # CR: rename it to close_connection
     def break_connection(self):
         connection = mysql.connector.connect(host=self.host,
                                              database=self.database,
                                              user=self.user,
                                              password=self.password)
+        # CR: close connection that is created in init method (the one that you share across all methods).
         connection.close()
         info = str(datetime.datetime.today())[:19] + " INFO: Соединение закрыто"
         print(info)
@@ -84,6 +88,7 @@ class Dealership:
                                                  password=self.password)
             c = connection.cursor()
             c.execute(sql)
+            #CR: date format
             print(str(datetime.datetime.today())[:19] + "INFO: Выведен подробный список автомобилей, "
                                                         "доступных в автоцентре в output")
             rows = c.fetchall()
@@ -480,5 +485,5 @@ class Dealership:
             print(e)
             return e
 
-Dealership1 = Dealership('localhost', 'dealership', 'root', 'password')
+Dealership_object = Dealership('localhost', 'dealership', 'root', 'password')
 print(help(__name__))

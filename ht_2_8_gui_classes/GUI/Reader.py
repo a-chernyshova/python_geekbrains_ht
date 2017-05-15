@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from GUI.default import DefaultInterface
-from Deal.Dealership import Dealership1
+from Deal.Dealership import Dealership_object
 
 
 class Reader(DefaultInterface):
@@ -58,4 +58,4 @@ class Reader(DefaultInterface):
         # display the menu
         self.root.config(menu=menubar)
         self.root.mainloop()
-        Dealership1.break_connection()
+        Dealership_object.break_connection()

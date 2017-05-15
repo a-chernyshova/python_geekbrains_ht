@@ -5,7 +5,7 @@ import hashlib
 from tkinter import *
 from tkinter.ttk import Combobox as Combobox
 from GUI.validator import validator
-from Deal.Dealership import Dealership1
+from Deal.Dealership import Dealership_object
 
 
 class DefaultInterface:
@@ -24,7 +24,7 @@ class DefaultInterface:
     def print_models_btn(self):
         # очистить окно вывода
         self.output.delete('1.0', END)
-        texts = Dealership1.printer_models()
+        texts = Dealership_object.printer_models()
         self.output.insert("1.0", "{:<3} {:<10}".format(" №", "Model name\n"))
         n = 0
         for line in texts:
@@ -34,7 +34,7 @@ class DefaultInterface:
 
     def print_makers_btn(self):
         self.output.delete('1.0', END)
-        makers = Dealership1.printer_makers()
+        makers = Dealership_object.printer_makers()
         self.output.insert("1.0", "{:<3} {:<10}".format(" №", "Maker name\n"))
         n = 0
         for line in makers:
@@ -44,7 +44,7 @@ class DefaultInterface:
 
     def print_car_btn(self):
         self.output.delete('1.0', END)
-        texts = Dealership1.printer_car_dealership()
+        texts = Dealership_object.printer_car_dealership()
         self.output.insert("1.0", " {:<3}{:<18}{:<15}{:<8}{:<8}{:<3}\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
         for i in texts:
             self.output.insert(END, " {:<3}{:<18}{:<15}{:<8}{:<8}{:<3}".format(i[0], i[1], i[2], i[3], i[4], i[5])+"\n")
@@ -52,7 +52,7 @@ class DefaultInterface:
 
     def print_not_available_car_btn(self):
         self.output.delete('1.0', END)
-        cars = Dealership1.printer_not_available_car()
+        cars = Dealership_object.printer_not_available_car()
         self.output.insert("1.0", " {:<3}{:<18}{:<12}{:<10}\n".format("№", "Model", "Maker", "Engine"))
         n = 0
         for i in cars:
@@ -84,6 +84,7 @@ class DefaultInterface:
         Button(root5, text="Понятно", width=10, height=1, command=root5.destroy).grid(row=2, column=2)
         self.root.mainloop()
 
+    # CR: all functions have to take less that one screen of space.
     def export_notavailable_btn(self):
         root1 = Toplevel(self.root)
         root1.title("Export to file")
@@ -94,17 +95,17 @@ class DefaultInterface:
         filename = Entry(root1, width=20)
         filename.grid(row=1, column=2)
         Label(root1, text="File name (name.txt)").grid(row=1, column=1)
-        cars = Dealership1.printer_not_available_car()
-        models = Dealership1.printer_models()
-        makers = Dealership1.printer_makers()
+        cars = Dealership_object.printer_not_available_car()
+        models = Dealership_object.printer_models()
+        makers = Dealership_object.printer_makers()
 
         def ok_btn():
             file = filename.get()+'.txt'
             if file:
                 f = open(file, 'a+')
-                thread1 = threading.Thread(target=Dealership1.export_to_file, args=('Thread1', f, cars))
-                thread2 = threading.Thread(target=Dealership1.export_to_file, args=('Thread2', f, models))
-                thread3 = threading.Thread(target=Dealership1.export_to_file, args=('Thread3', f, makers))
+                thread1 = threading.Thread(target=Dealership_object.export_to_file, args=('Thread1', f, cars))
+                thread2 = threading.Thread(target=Dealership_object.export_to_file, args=('Thread2', f, models))
+                thread3 = threading.Thread(target=Dealership_object.export_to_file, args=('Thread3', f, makers))
                 thread1.start()
                 thread2.start()
                 thread3.start()
@@ -120,17 +121,21 @@ class DefaultInterface:
         root1.mainloop()
 
     def add_car_btn(self):
+        # CR: don't use numeric suffixes
         root1 = Toplevel(self.root)
         root1.title("Add new car")
         root1.minsize(250, 200)
         root1.resizable(width=False, height=False)
         root1.geometry('250x110+200+200')
         root1.grab_set()
+
         car_model = Entry(root1, width=20)
         car_model.grid(row=2, column=2)
+
         Label(root1, text="Название модели").grid(row=2, column=1)
         maker = Entry(root1, width=20)
         maker.grid(row=3, column=2)
+
         Label(root1, text="Производитель").grid(row=3, column=1)
         year_production = Entry(root1, width=20)
         year_production.grid(row=4, column=2)
@@ -144,7 +149,7 @@ class DefaultInterface:
 
         def ok_btn():
             if year_production.get().isdigit() and cost.get().isdigit() and maker.get().isalpha():
-                t = Dealership1.add_car(car_model.get().capitalize(), maker.get().upper(),
+                t = Dealership_object.add_car(car_model.get().capitalize(), maker.get().upper(),
                                         year_production.get(), car_engine.get(), cost.get())
                 self.output.insert("0.0", str(t) + "\n")
                 root1.destroy()
@@ -194,7 +199,7 @@ class DefaultInterface:
         def ok_btn():
             if year_production.get().isdigit() and cost.get().isdigit() and \
                     weight_limit.get().isdigit():
-                t = Dealership1.add_lorry(car_model.get().capitalize(), maker.get().upper(),
+                t = Dealership_object.add_lorry(car_model.get().capitalize(), maker.get().upper(),
                                           year_production.get(), car_engine.get(), cost.get(), weight_limit.get())
                 self.output.insert("0.0", str(t) + "\n")
                 root2.destroy()
@@ -228,7 +233,7 @@ class DefaultInterface:
 
         def ok_btn():
             if amount.get().isdigit() and id_car.get().isdigit():
-                t = Dealership1.add_car_to_dealership(id_car.get(), amount.get())
+                t = Dealership_object.add_car_to_dealership(id_car.get(), amount.get())
                 self.output.insert("0.0", str(t) + "\n")
                 root3.destroy()
             else:
@@ -249,7 +254,7 @@ class DefaultInterface:
         root4.resizable(width=False, height=False)
         root4.geometry('250x100+200+200')
         root4.grab_set()
-        options = Dealership1.return_dict()
+        options = Dealership_object.return_dict()
         Label(root4, text="Идентификатор").grid(row=1, column=1)
         amount = Entry(root4, width=20)
         amount.grid(row=2, column=2)
@@ -262,7 +267,7 @@ class DefaultInterface:
             for key, value in options.items():
                 if value == x:
                     id_car = key
-            t = Dealership1.update_amount(id_car, amount.get())
+            t = Dealership_object.update_amount(id_car, amount.get())
             self.output.insert("0.0", str(t) + "\n")
             root4.destroy()
 
@@ -276,7 +281,7 @@ class DefaultInterface:
         root5.geometry('300x100+200+200')
         root5.resizable(width=False, height=False)
         root5.grab_set()
-        options = Dealership1.return_dict()
+        options = Dealership_object.return_dict()
         Label(root5, text="Идентификатор").grid(row=1, column=1)
         ids = Combobox(root5, value=list(options.values()), width=18)
         ids.grid(row=1, column=2)
@@ -286,7 +291,7 @@ class DefaultInterface:
             for key, value in options.items():
                 if value == x:
                     id_car = key
-            t = Dealership1.delete_car_from_dealership(id_car)
+            t = Dealership_object.delete_car_from_dealership(id_car)
             self.output.insert("0.0", str(t) + "\n")
             root5.destroy()
         Button(root5, text="Удалить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
@@ -299,7 +304,7 @@ class DefaultInterface:
         root5.geometry('250x100+200+200')
         root5.resizable(width=False, height=False)
         root5.grab_set()
-        options = Dealership1.retrive_from_one_db('cars', 'id_car', 'car_model')
+        options = Dealership_object.retrive_from_one_db('cars', 'id_car', 'car_model')
         Label(root5, text="Идентификатор").grid(row=1, column=1)
         cost = Entry(root5, width=20)
         cost.grid(row=2, column=2)
@@ -312,7 +317,7 @@ class DefaultInterface:
             for key, value in options.items():
                 if value == x:
                     id_car = key
-            t = Dealership1.update_car(id_car, cost.get())
+            t = Dealership_object.update_car(id_car, cost.get())
             self.output.insert("0.0", str(t) + "\n")
             root5.destroy()
         Button(root5, text="Сохранить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
@@ -334,7 +339,7 @@ class DefaultInterface:
 
         def ok_btn():
             if weight_limit.get().isdigit():
-                t = Dealership1.update_lorry(id_lorry.get(), weight_limit.get())
+                t = Dealership_object.update_lorry(id_lorry.get(), weight_limit.get())
                 self.output.insert("0.0", str(t) + "\n")
                 root6.destroy()
             else:
@@ -352,8 +357,8 @@ class DefaultInterface:
         root5.geometry('250x100+200+200')
         root5.resizable(width=False, height=False)
         root5.grab_set()
-        dict1 = Dealership1.retrive_from_one_db('cars', 'id_car', 'car_model')
-        dict2 = Dealership1.retrive_from_2_tables()
+        dict1 = Dealership_object.retrive_from_one_db('cars', 'id_car', 'car_model')
+        dict2 = Dealership_object.retrive_from_2_tables()
         for key, value in dict2.items():
             dict1.pop(key)
         options = dict1
@@ -367,7 +372,7 @@ class DefaultInterface:
             for key, value in options.items():
                 if value == x:
                     id_car = key
-            t = Dealership1.delete_car(id_car)
+            t = Dealership_object.delete_car(id_car)
             self.output.insert("0.0", str(t) + "\n")
             root5.destroy()
 
@@ -381,7 +386,7 @@ class DefaultInterface:
         root5.geometry('250x100+200+200')
         root5.resizable(width=False, height=False)
         root5.grab_set()
-        options = Dealership1.retrive_from_2_tables()
+        options = Dealership_object.retrive_from_2_tables()
         ids = Combobox(root5, value=list(options.values()), width=18)
         ids.grid(row=1, column=2)
         Label(root5, text="Идентификатор").grid(row=1, column=1)
@@ -391,20 +396,23 @@ class DefaultInterface:
             for key, value in options.items():
                 if value == x:
                     id_car = key
-            t = Dealership1.delete_lorry(id_car)
+            t = Dealership_object.delete_lorry(id_car)
             self.output.insert("0.0", str(t) + "\n")
             root5.destroy()
         Button(root5, text="Удалить", width=10, height=1, command=ok_btn).grid(row=9, column=1)
         Button(root5, text="Отмена", width=10, height=1, command=root5.destroy).grid(row=9, column=2)
         root5.mainloop()
 
+    # CR: the function is too large
     def search_model_btn(self):
+        # CR: reuse names, if they mean the same and they don't share the same scope of visibility
         root5 = Toplevel(self.root)
         root5.title("Search model")
         root5.minsize(250, 100)
         root5.resizable(width=False, height=False)
         root5.geometry('250x100+200+200')
         root5.grab_set()
+
         model = Entry(root5, width=20)
         model.grid(row=1, column=2)
         Label(root5, text="Модель").grid(row=1, column=1)
@@ -412,7 +420,7 @@ class DefaultInterface:
         def ok_btn():
             self.output.delete('1.0', END)
             self.output.insert("1.0", "Результаты поиска\n")
-            texts = Dealership1.search_car_model(model.get())
+            texts = Dealership_object.search_car_model(model.get())
             if texts:
                 self.output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
                                    "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
@@ -444,7 +452,7 @@ class DefaultInterface:
             if maker.get().isalpha():
                 self.output.delete('1.0', END)
                 self.output.insert("1.0", "Результаты поиска\n")
-                texts = Dealership1.search_car_maker(maker.get())
+                texts = Dealership_object.search_car_maker(maker.get())
                 if texts:
                     self.output.insert(END, " {:<3}{:<18}{:<10}{:<8}{:<8}{:<3}"
                                        "\n".format("ID", "Model", "Maker", "Engine", "Cost", "Amount"))
@@ -484,7 +492,7 @@ class DefaultInterface:
             h = pwd.get().encode()
             h = hashlib.md5(h)
             if re.match(r"^[A-Z]\w*[a-z]{1,3}$", pwd.get()) and role.get().isdigit():
-                t = Dealership1.create_user(log.get(), h.hexdigest(), role.get())
+                t = Dealership_object.create_user(log.get(), h.hexdigest(), role.get())
                 self.output.insert("0.0", str(t) + "\n")
                 root5.destroy()
             else:
@@ -511,7 +519,7 @@ class DefaultInterface:
         def ok_btn():
 
             if id_user.get().isdigit():
-                t = Dealership1.del_user(id_user.get())
+                t = Dealership_object.del_user(id_user.get())
                 self.output.insert("0.0", str(t) + "\n")
                 root5.destroy()
             else:
@@ -523,7 +531,7 @@ class DefaultInterface:
 
     def print_users_btn(self):
         self.output.delete('1.0', END)
-        texts = Dealership1.printer_users()
+        texts = Dealership_object.printer_users()
         self.output.insert('1.0', " {:<3} {:<10} {:<35} {:<10}".format("ID", "Login", "Password", "Role\n"))
         roles = {0: 'admin', 1: 'manager', 2: 'for read'}
         for line in texts:
@@ -585,4 +593,4 @@ class DefaultInterface:
 
         self.root.config(menu=menubar)
         self.root.mainloop()
-        Dealership1.break_connection()
+        Dealership_object.break_connection()
