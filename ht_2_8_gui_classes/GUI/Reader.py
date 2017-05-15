@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from GUI.default import DefaultInterface
-from Deal.Dealership import Dealership_object
+from Deal.DealershipDAO import Dealership_object
 
 
 class Reader(DefaultInterface):
 
     def __init__(self):
         self.root = Tk()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.title("Read only")
         self.root.minsize(100, 300)
         self.root.resizable(width=False, height=True)
@@ -27,7 +28,6 @@ class Reader(DefaultInterface):
         Button(self.root, text="Cars list", width=18, font="Comic", command=self.print_car_btn).\
             grid(row=3, column=1)
 
-        # Остальные команды - поиск и вывод не доступных в автосалоне машин
         Button(self.root, text="Search model", bg="light blue", font="Comic", width=18,
                command=self.search_model_btn).grid(row=4, column=1)
         Button(self.root, text="Search maker", bg="light blue", font="Comic", width=18,
@@ -35,7 +35,6 @@ class Reader(DefaultInterface):
         Button(self.root, text="Not available cars", font="Comic", bg="light blue", width=18,
                command=self.print_not_available_car_btn).grid(row=6, column=1)
 
-        # Отрисовка меню бар
         menubar = Menu(self.root)
         # create a pulldown menu, and add it to the menu bar
         filemenu = Menu(menubar, tearoff=0)
@@ -45,7 +44,6 @@ class Reader(DefaultInterface):
         filemenu.add_command(label="Exit", command=self.root.destroy)
         menubar.add_cascade(label="File", menu=filemenu)
 
-        # search
         searchmenu = Menu(menubar, tearoff=0)
         searchmenu.add_command(label="Search model", command=self.search_model_btn)
         searchmenu.add_command(label="Search maker", command=self.search_maker_btn)
@@ -58,4 +56,4 @@ class Reader(DefaultInterface):
         # display the menu
         self.root.config(menu=menubar)
         self.root.mainloop()
-        Dealership_object.break_connection()
+        Dealership_object.close_connection()

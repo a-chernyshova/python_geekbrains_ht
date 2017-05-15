@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from GUI.default import DefaultInterface
-from Deal.Dealership import Dealership_object
+from Deal.DealershipDAO import Dealership_object
 
 
 class Manager(DefaultInterface):
 
     def __init__(self):
         self.root = Tk()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.title("Access for manager")
         self.root.minsize(100, 300)
         self.root.resizable(width=False, height=True)
@@ -19,7 +20,7 @@ class Manager(DefaultInterface):
         self.src.grid(row=1, column=6, sticky=NS)
 
     def gui(self):
-        # Группа кнопок для вывода информации на экран
+        # Buttons set to print queries results
         btn_print_models = Button(self.root, text="Models list", width=10,  font="Comic", command=self.print_models_btn)
         btn_print_models.grid(row=5, column=1)
         Button(self.root, text="Makers list", width=10, font="Comic", command=self.print_makers_btn).\
@@ -27,7 +28,7 @@ class Manager(DefaultInterface):
         Button(self.root, text="Cars list", width=10, font="Comic", command=self.print_car_btn).\
             grid(row=7, column=1)
 
-        # Группа кнопок для добавления данных в базу
+        # Buttons set to add date to db
         Button(self.root, text="Add car to cars list", bg="grey", font="Comic", width=18,
                command=self.add_car_btn).grid(row=5, column=2)
         Button(self.root, text="Add car to dealership", font="Comic", bg="grey", width=18,
@@ -35,7 +36,7 @@ class Manager(DefaultInterface):
         Button(self.root, text="Add lorry", bg="grey", width=18, font="Comic",
                command=self.add_lorry_btn).grid(row=7, column=2)
 
-        # Группа кнопок для изменения данных в базе
+        # Button set to change data in db
         Button(self.root, text="Change amount", bg="yellow", font="Comic", width=18,
                command=self.update_amount_btn).grid(row=5, column=4)
         Button(self.root, text="Change cost", bg="yellow", font="Comic",
@@ -43,7 +44,7 @@ class Manager(DefaultInterface):
         Button(self.root, text="Change weight limit", font="Comic", bg="yellow", width=18,
                command=self.update_lorry_limits_btn).grid(row=7, column=4)
 
-        # Группа кнопок для удаления данных из базы
+        # Buttons set to delete data from db
         Button(self.root, text="Del car from dealership", font="Comic", bg="red", width=18,
                command=self.del_car_from_ds_btn).grid(row=5, column=3)
         Button(self.root, text="Del car from list", bg="red", width=18, font="Comic",
@@ -51,7 +52,7 @@ class Manager(DefaultInterface):
         Button(self.root, text="Del lorry", bg="red", width=18, font="Comic",
                command=self.del_lorry_btn).grid(row=7, column=3)
 
-        # Остальные команды - поиск и вывод не доступных в автосалоне машин
+        # Button set for other commands
         Button(self.root, text="Search model", bg="light blue", font="Comic",
                width=18, command=self.search_model_btn).grid(row=5, column=5)
         Button(self.root, text="Search maker", bg="light blue", font="Comic",
@@ -59,7 +60,7 @@ class Manager(DefaultInterface):
         Button(self.root, text="Not available cars", font="Comic", bg="light blue", width=18,
                command=self.print_not_available_car_btn).grid(row=7, column=5)
 
-        # Отрисовка меню бар
+        # Show menu bur
         menubar = Menu(self.root)
         # create a pulldown menu, and add it to the menu bar
         filemenu = Menu(menubar, tearoff=0)
@@ -71,7 +72,7 @@ class Manager(DefaultInterface):
         filemenu.add_command(label="Exit", command=self.root.destroy)
         menubar.add_cascade(label="File", menu=filemenu)
 
-        # # create more pulldown menus
+        # Edit pulldown menu
         editmenu = Menu(menubar, tearoff=0)
         editmenu.add_command(label="Delete car", command=self.del_car_btn)
         editmenu.add_command(label="Delete lorry", command=self.del_lorry_btn)
@@ -94,4 +95,4 @@ class Manager(DefaultInterface):
         # display the menu
         self.root.config(menu=menubar)
         self.root.mainloop()
-        Dealership_object.break_connection()
+        Dealership_object.close_connection()

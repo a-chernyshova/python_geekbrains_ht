@@ -5,7 +5,7 @@ from GUI.Admin import Admin
 from GUI.Reader import Reader
 from GUI.Regular import Manager
 from GUI.validator import validator
-from Deal.Dealership import Dealership_object
+from Deal.DealershipDAO import Dealership_object
 
 
 TIMESTAMP = datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S")
@@ -86,5 +86,5 @@ def auth_window():
     Button(root, text="Cancel", width=10, height=1, command=root.destroy).grid(row=3, column=2, padx=(1, 1))
     root.mainloop()
 
+
 auth_window()
-Dealership_object.break_connection()

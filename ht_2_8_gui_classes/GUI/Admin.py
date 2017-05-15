@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
+from tkinter import messagebox
 from GUI.default import DefaultInterface
-from Deal.Dealership import Dealership_object
+from Deal.DealershipDAO import Dealership_object
 
 
 class Admin(DefaultInterface):
 
     def __init__(self):
         self.root = Tk()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.title("Adminka")
         self.root.minsize(100, 300)
         self.root.resizable(width=False, height=True)
@@ -26,14 +28,16 @@ class Admin(DefaultInterface):
                command=self.add_car_to_ds_btn).grid(row=6, column=1)
         Button(self.root, text="Add lorry", bg="light blue", width=20, font="Comic", command=self.add_lorry_btn).\
             grid(row=7, column=1)
-        # Группа кнопок для изменения данных в базе
+
+        # Button set to change data in db
         Button(self.root, text="Change amount", bg="yellow", font="Comic", width=20,
                command=self.update_amount_btn).grid(row=5, column=2)
         Button(self.root, text="Change cost", bg="yellow", font="Comic",
                width=20, command=self.update_car_cost_btn).grid(row=6, column=2)
         Button(self.root, text="Change weight limit", font="Comic", bg="yellow", width=20,
                command=self.update_lorry_limits_btn).grid(row=7, column=2)
-        # Группа кнопок для удаления данных из базы
+
+        # Buttons set to remove data from db
         Button(self.root, text="Del car from dealership", font="Comic", bg="red", width=20,
                command=self.del_car_from_ds_btn).grid(row=5, column=3)
         Button(self.root, text="Del car from list", bg="red", width=20, font="Comic", command=self.del_car_btn).\
@@ -41,7 +45,7 @@ class Admin(DefaultInterface):
         Button(self.root, text="Del lorry", bg="red", width=20, font="Comic", command=self.del_lorry_btn).\
             grid(row=7, column=3)
 
-        # Отрисовка меню бар
+        # Show menu bar
         menubar = Menu(self.root)
         # create a pulldown menu, and add it to the menu bar
         filemenu = Menu(menubar, tearoff=0)
@@ -71,4 +75,4 @@ class Admin(DefaultInterface):
         # display the menu
         self.root.config(menu=menubar)
         self.root.mainloop()
-        Dealership_object.break_connection()
+        Dealership_object.close_connection()

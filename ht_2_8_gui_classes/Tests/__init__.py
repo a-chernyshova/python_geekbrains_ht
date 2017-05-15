@@ -4,7 +4,7 @@ import hashlib
 import datetime
 import mysql.connector
 import random
-from Deal.Dealership import Dealership
+from Deal.DealershipDAO import Dealership
 
 
 class DealershipTest(unittest.TestCase):
