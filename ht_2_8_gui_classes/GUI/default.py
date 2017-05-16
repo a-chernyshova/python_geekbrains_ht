@@ -26,11 +26,13 @@ class DefaultInterface:
             self.root.destroy()
             Dealership_object.close_connection()
 
-    def manage_buttons(self, window, command, name1, row1, row2, column1, column2):
+    @staticmethod
+    def manage_buttons(window, command, name1, row1, row2, column1, column2):
         Button(window, text=name1, width=10, height=1, command=command).grid(row=row1, column=column1)
         Button(window, text='Cancel', width=10, height=1, command=window.destroy).grid(row=row2, column=column2)
 
-    def params_modal_window(self, window, name, width, height):
+    @staticmethod
+    def params_modal_window(window, name, width, height):
         window.title(name)
         window.resizable(width=False, height=False)
         window.geometry('{}x{}+200+200'.format(width, height))
@@ -298,7 +300,7 @@ class DefaultInterface:
         modal_window = Toplevel(self.root)
         self.params_modal_window(modal_window, "Change cost", 250, 100)
 
-        options = Dealership_object.retrive_from_one_db('cars', 'id_car', 'car_model')
+        options = Dealership_object.retrieve_from_one_db('cars', 'id_car', 'car_model')
         Label(modal_window, text="ID").grid(row=1, column=1)
         cost = Entry(modal_window, width=20)
         cost.grid(row=2, column=2)
@@ -321,7 +323,7 @@ class DefaultInterface:
         modal_window = Toplevel(self.root)
         self.params_modal_window(modal_window, "Change weight limit", 250, 100)
 
-        options = Dealership_object.retrive_from_2_tables()
+        options = Dealership_object.retrieve_from_2_tables()
         id_lorry = Combobox(modal_window, value=list(options.values()), width=17)
         id_lorry.grid(row=1, column=2)
         Label(modal_window, text="ID", width=15).grid(row=1, column=1)
@@ -347,7 +349,7 @@ class DefaultInterface:
     def del_car_btn(self):
         modal_window = Toplevel(self.root)
         self.params_modal_window(modal_window, "Delete car", 250, 50)
-        options = Dealership_object.retrive_cars_only()
+        options = Dealership_object.retrieve_cars_only()
         Label(modal_window, text="ID", width=15).grid(row=1, column=1)
         ids = Combobox(modal_window, value=list(options.values()), width=17)
         ids.grid(row=1, column=2)
@@ -366,8 +368,7 @@ class DefaultInterface:
     def del_lorry_btn(self):
         modal_window = Toplevel(self.root)
         self.params_modal_window(modal_window, "Delete Lorry", 250, 50)
-
-        options = Dealership_object.retrive_from_2_tables()
+        options = Dealership_object.retrieve_from_2_tables()
         ids = Combobox(modal_window, value=list(options.values()), width=17)
         ids.grid(row=1, column=2)
         Label(modal_window, text="ID", width=15).grid(row=1, column=1)

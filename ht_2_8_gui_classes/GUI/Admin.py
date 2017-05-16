@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
-from tkinter import messagebox
 from GUI.default import DefaultInterface
 from Deal.DealershipDAO import Dealership_object
 

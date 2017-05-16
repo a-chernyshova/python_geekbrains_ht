@@ -27,7 +27,8 @@ class Dealership:
             # CR: re-throw exception or exit the program with ERROR. don't allow it to go forward.
             print(e)
 
-    def close_connection(self):
+    @staticmethod
+    def close_connection():
         connection.close()
         info = TIMESTAMP + " INFO: Соединение закрыто"
         print(info)
@@ -35,7 +36,8 @@ class Dealership:
 
     ''' Class methods: '''
     ''' Show all models '''
-    def printer_models(self):
+    @staticmethod
+    def printer_models():
         try:
             sql = "select  distinct cars.car_model, dealership.amount from dealership " \
                   "join cars on cars.id_car=dealership.id_car group by cars.car_model;"
@@ -50,7 +52,8 @@ class Dealership:
             return e
 
     ''' Show all makers '''
-    def printer_makers(self):
+    @staticmethod
+    def printer_makers():
         try:
             sql = "select  distinct cars.maker from dealership join cars on cars.id_car=dealership.id_car"
 
@@ -65,7 +68,8 @@ class Dealership:
             return e
 
     ''' Show all dealership cars '''
-    def printer_car_dealership(self):
+    @staticmethod
+    def printer_car_dealership():
         try:
             sql = "select dealership.id, cars.car_model, cars.maker, cars.car_engine, cars.cost, " \
                   "dealership.amount from dealership join cars on cars.id_car=dealership.id_car group by cars.car_model"
@@ -82,7 +86,8 @@ class Dealership:
             return e
 
     ''' List of unavailable cars '''
-    def printer_not_available_car(self):
+    @staticmethod
+    def printer_not_available_car():
         try:
             sql = "select distinct cars.car_model, cars.maker, cars.car_engine, cars.cost from cars " \
                   "where id_car not in (select id_car from dealership);"
@@ -97,7 +102,8 @@ class Dealership:
             return e
 
     ''' Add car to cars table '''
-    def add_car(self, car_model, maker, year_production, car_engine, cost):
+    @staticmethod
+    def add_car(car_model, maker, year_production, car_engine, cost):
         try:
             id_car = "select max(id_car) from cars;"
             sql = "INSERT INTO Cars(id_car, car_model, maker, year_production, car_engine, cost)" \
@@ -119,7 +125,8 @@ class Dealership:
             return e
 
     ''' Add car to related tables Cars, Lorries '''
-    def add_lorry(self, car_model, maker, year_production, car_engine, cost, weight_limit):
+    @staticmethod
+    def add_lorry(car_model, maker, year_production, car_engine, cost, weight_limit):
         try:
             id_car1 = "select max(id_car) from cars;"
             sql1 = "INSERT INTO Cars(id_car, car_model, maker, year_production, car_engine, cost) " \
@@ -135,7 +142,7 @@ class Dealership:
             c.execute(sql1, args1)
             c.execute(sql2, args2)
             connection.commit()
-            info = (TIMESTAMP + " INFO: Модель {}{} добавлена в таблицы Cars, Lorries".format(car_model, maker))
+            info = (TIMESTAMP + " INFO: Модель {} {} добавлена в таблицы Cars, Lorries".format(car_model, maker))
             print(info)
             return info
         except Error as e:
@@ -143,7 +150,8 @@ class Dealership:
             return e
 
     ''' Add car to dealership '''
-    def add_car_to_dealership(self, id_car, amount):
+    @staticmethod
+    def add_car_to_dealership(id_car, amount):
         try:
             sql = "INSERT INTO dealership(id_car, amount) VALUES(%s,%s)"
             args = (id_car, amount)
@@ -158,7 +166,8 @@ class Dealership:
             return e
 
     # Change amount of dealership car with help id
-    def update_amount(self, id_row, amount):
+    @staticmethod
+    def update_amount(id_row, amount):
         try:
             sql = "UPDATE dealership SET amount = %s WHERE id = %s"
             c = connection.cursor()
@@ -172,7 +181,8 @@ class Dealership:
             return e
 
     # Return dict for dropdown lists
-    def return_dict(self):
+    @staticmethod
+    def return_dict():
         sql = "select d.id, cars.car_model from dealership d join cars on d.id_car = cars.id_car;"
         result = {}
         try:
@@ -186,7 +196,8 @@ class Dealership:
             print(e)
             return e
 
-    def retrive_from_2_tables(self):
+    @staticmethod
+    def retrieve_from_2_tables():
         sql = 'select cars.id_car, car_model from cars join lorries on cars.id_car = lorries.id_car;'
         result = {}
         try:
@@ -200,7 +211,8 @@ class Dealership:
             print(e)
             return e
 
-    def retrive_cars_only(self):
+    @staticmethod
+    def retrieve_cars_only():
         sql = 'select cars.id_car, car_model from cars left join dealership on ' \
               'cars.id_car = dealership.id_car where dealership.id_car is NULL;'
         result = {}
@@ -216,7 +228,8 @@ class Dealership:
             return e
 
     # return dict for dropdown list
-    def retrive_from_one_db(self, name_db, column1, column2):
+    @staticmethod
+    def retrieve_from_one_db(name_db, column1, column2):
         sql = "select {}, {} from {};".format(column1, column2, name_db)
         result = {}
         try:
@@ -231,7 +244,8 @@ class Dealership:
             return e
 
     # Remove car from dealership
-    def delete_car_from_dealership(self, id_row):
+    @staticmethod
+    def delete_car_from_dealership(id_row):
         try:
             sql = "DELETE FROM dealership WHERE id = %s"
             c = connection.cursor()
@@ -245,7 +259,8 @@ class Dealership:
             return e
 
     # Car cost update
-    def update_car(self, id_car, cost):
+    @staticmethod
+    def update_car(id_car, cost):
         try:
             sql = "UPDATE cars SET cost = %s WHERE id_car = %s"
             c = connection.cursor()
@@ -259,7 +274,8 @@ class Dealership:
             return e
 
     # Weight limit update
-    def update_lorry(self, id_lorry, weight_limit):
+    @staticmethod
+    def update_lorry(id_lorry, weight_limit):
         try:
             sql = "UPDATE lorries SET weight_limit = %s WHERE id_lorry = %s"
             c = connection.cursor()
@@ -272,7 +288,8 @@ class Dealership:
             print(e)
             return e
 
-    def delete_car(self, id_car):
+    @staticmethod
+    def delete_car(id_car):
         try:
             sql = "DELETE FROM cars WHERE id_car = %s"
             c = connection.cursor()
@@ -286,8 +303,8 @@ class Dealership:
             return e
 
     # Remove row from related tables Cars, Lorries with help id_car
-    # FIXME: Почему то не выдает ошибку при удалении не существующей записи
-    def delete_lorry(self, id_car):
+    @staticmethod
+    def delete_lorry(id_car):
         try:
             sql1 = "DELETE FROM lorries WHERE id_car = %s"
             sql2 = "DELETE FROM cars WHERE id_car = %s"
@@ -303,7 +320,8 @@ class Dealership:
             return e
 
     # Search model in Car_dealership
-    def search_car_model(self, model):
+    @staticmethod
+    def search_car_model(model):
         try:
             sql = "SELECT dealership.id, desc cars.car_model, cars.year_production, cars.car_engine, " \
                   "cars.cost, dealership.amount FROM dealership JOIN cars on " \
@@ -318,7 +336,8 @@ class Dealership:
             return e
 
     # Search maker in Car_dealership
-    def search_car_maker(self, maker):
+    @staticmethod
+    def search_car_maker(maker):
         try:
             sql = "SELECT dealership.id, desc cars.car_model, cars.year_production, cars.car_engine, " \
                   "cars.cost, dealership.amount FROM dealership JOIN cars on " \
@@ -333,7 +352,8 @@ class Dealership:
             print(e)
             return e
 
-    def export_to_file(self, text, filename, rows):
+    @staticmethod
+    def export_to_file(text, filename, rows):
         # lock = threading.BoundedSemaphore(2)
         # lock.acquire()
         for row in rows:
@@ -341,7 +361,8 @@ class Dealership:
             time.sleep(0.2)
         # lock.release()
 
-    def authorization(self, log, pas):
+    @staticmethod
+    def authorization(log, pas):
         try:
             sql = "SELECT Role FROM users WHERE Login = %s and Password = %s"
             c = connection.cursor()
@@ -355,7 +376,8 @@ class Dealership:
         except Error as e:
             return e
 
-    def create_user(self, log, pas, role):
+    @staticmethod
+    def create_user(log, pas, role):
         try:
             sql = "insert into users (login, password, role) values (%s, %s, %s);"
             args = (log, pas, role)
@@ -368,7 +390,8 @@ class Dealership:
         except Error as e:
             return e
 
-    def del_user(self, id_user):
+    @staticmethod
+    def del_user(id_user):
         try:
             sql = "DELETE FROM users WHERE id = %s"
             c = connection.cursor()
@@ -381,7 +404,8 @@ class Dealership:
             print(e)
             return e
 
-    def printer_users(self):
+    @staticmethod
+    def printer_users():
         try:
             sql = "SELECT * from users;"
             c = connection.cursor()
